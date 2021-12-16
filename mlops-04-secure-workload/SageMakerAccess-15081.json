@@ -1,0 +1,46 @@
+{
+    "Statement": [
+        {
+            "Action": [
+                "cloudwatch:PutMetricData",
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:GenerateDataKey",
+                "kms:ReEncryptTo",
+                "kms:ReEncryptFrom",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:DeleteLogGroup",
+                "logs:DeleteLogStream",
+                "logs:PutLogEvents",
+                "sagemaker:CreateModel",
+                "sagemaker:CreateTrainingJob",
+                "sagemaker:DeleteModel"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::codepipeline-ap-southeast-2-*",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d263-4813-892-ecrbucket-1scbbh8x0rml1",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d26-modelartifactbucket-17blm74bf8db9",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d263-48-modeldatabucket-f27hx9w9g4be",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d263-4813-892-ecrbucket-1scbbh8x0rml1/*",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d26-modelartifactbucket-17blm74bf8db9/*",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d263-48-modeldatabucket-f27hx9w9g4be/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "states:UpdateStateMachine"
+            ],
+            "Resource": "arn:aws:states:ap-southeast-2:866493737658:stateMachine:trainingStateMachine-vaijI1tSLGbo",
+            "Effect": "Allow"
+        }
+    ]
+}

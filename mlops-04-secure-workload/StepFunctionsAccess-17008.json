@@ -1,0 +1,118 @@
+{
+    "Statement": [
+        {
+            "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:GenerateDataKey",
+                "kms:ReEncryptTo",
+                "kms:ReEncryptFrom",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:DeleteLogGroup",
+                "logs:DeleteLogStream",
+                "logs:PutLogEvents",
+                "sagemaker:CreateTrainingJob",
+                "sagemaker:CreateModel",
+                "sagemaker:CreateEndpoint",
+                "sagemaker:DeleteEndpoint",
+                "sagemaker:DeleteEndpointConfig",
+                "sagemaker:DeleteModel"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Condition": {
+                "ForAllValues:StringLike": {
+                    "sagemaker:InstanceTypes": [
+                        "ml.t2.large",
+                        "ml.t2.medium",
+                        "ml.m5.large",
+                        "ml.m4.large"
+                    ]
+                }
+            },
+            "Action": [
+                "sagemaker:CreateEndpointConfig"
+            ],
+            "Resource": [
+                "arn:aws:sagemaker:*:866493737658:endpoint-config/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::866493737658:role/*-SageMakerRole-*",
+                "arn:aws:iam::866493737658:role/SageMakerAccess-15081"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "states:UpdateStateMachine"
+            ],
+            "Resource": "arn:aws:states:ap-southeast-2:866493737658:stateMachine:trainingStateMachine-vaijI1tSLGbo",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem"
+            ],
+            "Resource": "arn:aws:dynamodb:ap-southeast-2:866493737658:table/LabStack-prewarm-062dd797-d263-4813-892b-98b6689d3e21-shuRmYQ7j2JKJ8w8DYSShw-2-DynamoDBTable-1FD06WE3TP3I",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::codepipeline-ap-southeast-2-*",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d263-4813-892-ecrbucket-1scbbh8x0rml1",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d26-modelartifactbucket-17blm74bf8db9",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d263-48-modeldatabucket-f27hx9w9g4be",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d263-4813-892-ecrbucket-1scbbh8x0rml1/*",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d26-modelartifactbucket-17blm74bf8db9/*",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d263-48-modeldatabucket-f27hx9w9g4be/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "lambda:InvokeFunction"
+            ],
+            "Resource": [
+                "arn:aws:lambda:ap-southeast-2:866493737658:function:LabStack-prewarm-062dd797-d263--endpointWaitLambda-FFpGONKBQHTS",
+                "arn:aws:lambda:ap-southeast-2:866493737658:function:LabStack-prewarm-062dd797-d263-481-modelTestLambda-QOz4cXapoR1R"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "codepipeline:PutJobFailureResult",
+                "codepipeline:PutJobSuccessResult"
+            ],
+            "Resource": [
+                "arn:aws:codepipeline:ap-southeast-2:866493737658:LabStack-prewarm-062dd797-d263-4813-892b-98b6689d3e21-shuRmYQ7j2JK-deployModelPipeline-1BP1607ICQ2J6",
+                "arn:aws:codepipeline:ap-southeast-2:866493737658:LabStack-prewarm-062dd797-d263-4813-892b-98b6689d3e21-shuRmYQ7j2-StepFunctionsPipeline-K9HBL8KSGVVQ"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "events:PutTargets",
+                "events:PutRule",
+                "events:DescribeRule"
+            ],
+            "Resource": [
+                "arn:aws:events:ap-southeast-2:866493737658:rule/StepFunctionsGetEventsForSageMakerTrainingJobsRule",
+                "arn:aws:events:ap-southeast-2:866493737658:rule/StepFunctionsGetEventsForSageMakerTransformJobsRule"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}

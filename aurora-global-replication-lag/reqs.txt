@@ -1,0 +1,228 @@
+Overview
+
+
+Your Organization has an Amazon Aurora for PostgeSQL Database which is being used by your Product Development team. The team has requested your assistance with below requirements related to the database :
+
+    A read only copy of the Database which can be used to offload the read-only load and provides automatic failover capabilities in case of AZ failure.
+
+    Performance Insights enabled on the DB instance.
+
+    A dashboard which captures the number of outstanding read/write requests waiting to access the disk.
+
+
+
+
+ Task 1: Identify the DB Instance
+Possible Points: 8 Clue Penalty: 0 Points Earned: 8
+Completed!
+
+Background
+
+The Product team needs your experties to make the required changes on their existing Database. As the first task you need to find the Aurora instance and its endpoint on the AWS Console.
+
+Getting Started
+
+You will see the option "Open AWS console" at the top right hand side of this JAM Challenge window.
+
+Your Task
+
+Open the AWS Console and navigate through it to find the Aurora instance and its writer endpoint.
+
+Inventory
+
+An RDS instance has been provisioned for you.
+
+Services You Should use
+
+AWS RDS
+
+Task Validation
+
+Copy the endpoint name and Paste it in the answer box and Click on "Submit Answer" button.
+
+Make sure you copy paste the complete endpoint name.
+
+
+Task 2: Create the read-only Instance
+Possible Points: 45 Clue Penalty: 0 Points Available: 45
+
+Background
+
+Now that you know your instance, you need to start making changes requested by your product development team.
+
+The first change is to create a read-only copy of the existing instance which can be used to offload the read-only requests.
+
+Getting Started
+
+Amazon Aurora Databases provides many powerful features, one of which can be used to create a read-only copy of an existing instance which can be used to offload the reads from the primary DB.
+
+Your Task
+
+You need to identify the correct feature and make appropriate changes to the existing cluster.
+
+Inventory
+
+AWS Aurora DB Instance you identified in Task1.
+
+Services you should use
+
+AWS RDS
+
+Task Validation
+
+The task will be completed automatically if you have done the required changes correctly.
+
+You can always click on "Check My Progress" button to see the status of your task.
+
+
+ Task 2: Create the read-only Instance
+Possible Points: 45 Clue Penalty: 0 Points Earned: 45
+Completed!
+
+Background
+
+Now that you know your instance, you need to start making changes requested by your product development team.
+
+The first change is to create a read-only copy of the existing instance which can be used to offload the read-only requests.
+
+Getting Started
+
+Amazon Aurora Databases provides many powerful features, one of which can be used to create a read-only copy of an existing instance which can be used to offload the reads from the primary DB.
+
+Your Task
+
+You need to identify the correct feature and make appropriate changes to the existing cluster.
+
+Inventory
+
+AWS Aurora DB Instance you identified in Task1.
+
+Services you should use
+
+AWS RDS
+
+Task Validation
+
+The task will be completed automatically if you have done the required changes correctly.
+
+You can always click on "Check My Progress" button to see the status of your task.
+ Task 2: Create the read-only Instance
+Possible Points: 45 Clue Penalty: 0 Points Earned: 45
+Completed!
+
+Background
+
+Now that you know your instance, you need to start making changes requested by your product development team.
+
+The first change is to create a read-only copy of the existing instance which can be used to offload the read-only requests.
+
+Getting Started
+
+Amazon Aurora Databases provides many powerful features, one of which can be used to create a read-only copy of an existing instance which can be used to offload the reads from the primary DB.
+
+Your Task
+
+You need to identify the correct feature and make appropriate changes to the existing cluster.
+
+Inventory
+
+AWS Aurora DB Instance you identified in Task1.
+
+Services you should use
+
+AWS RDS
+
+Task Validation
+
+The task will be completed automatically if you have done the required changes correctly.
+
+You can always click on "Check My Progress" button to see the status of your task.
+
+
+
+
+ask 3: Enable Performance Insights
+Possible Points: 38 Clue Penalty: 0 Points Earned: 38
+Completed!
+
+Background
+
+The Product Development team has requested you to enable performance insights on the DB instance.
+
+Getting Started
+
+You may have to some settings on the existing instance
+
+Your Task
+
+Modify the existing writer instance and make appropriate changes which can enable performance insights on the instance.
+
+Inventory
+
+AWS Aurora DB Instance you identified in Task1.
+
+Services you should use
+
+AWS RDS
+
+Task Validation
+
+The task will be completed automatically if you have done the required changes correctly.
+
+
+ Task 4: Setup the dashboard
+Possible Points: 59 Clue Penalty: 0 Points Available: 59
+
+Background
+
+The team has a requirement to capture the number of outstanding I/Os (read/write requests) waiting to access the disk for the DB Cluster.
+
+Getting Started
+
+The AWS/RDS namespace in Cloudwatch collects couple of metrics by default.
+
+Your Task
+
+Identify which metric captures the data to meet the above requirement and create a CloudWatch Dashboard with a "single" widget to capture the required information.
+
+Inventory
+
+AWS Aurora DB Instance you identified in Task1.
+
+Services you should use
+
+AWS CloudWatch
+
+Task Validation
+
+Input the name of the dashboard that you create in the answerbox and click on "Submit Answer" Button.
+
+Note : Make sure only one widget is created under the dashboard with correct metric. If more than one widget is created than the task will not complete.
+ Task 4: Setup the dashboard
+Possible Points: 59 Clue Penalty: 0 Points Available: 59
+
+Background
+
+The team has a requirement to capture the number of outstanding I/Os (read/write requests) waiting to access the disk for the DB Cluster.
+
+Getting Started
+
+The AWS/RDS namespace in Cloudwatch collects couple of metrics by default.
+
+Your Task
+
+Identify which metric captures the data to meet the above requirement and create a CloudWatch Dashboard with a "single" widget to capture the required information.
+
+Inventory
+
+AWS Aurora DB Instance you identified in Task1.
+
+Services you should use
+
+AWS CloudWatch
+
+Task Validation
+
+Input the name of the dashboard that you create in the answerbox and click on "Submit Answer" Button.
+
+Note : Make sure only one widget is created under the dashboard with correct metric. If more than one widget is created than the task will not complete.

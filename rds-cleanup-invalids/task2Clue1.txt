@@ -1,0 +1,20 @@
+ Clue 1:Identify the Object with Invalid Reference of DB Link
+
+    Get the Invalid Object Name to modify and re-compile
+
+      select object_name from all_objects where status = 'INVALID' and owner = 'ORAADMIN' and object_type = 'TRIGGER';
+
+    Check Body of the Trigger to see Invalid Reference of DB Link as "CONNECT_TO_SCOTT"
+
+    To view the Body of Trigger, Use Dictionary Table "ALL_SOURCE"
+
+      select text from all_source where name = 'BOOK_BEFORE_INSERT';
+
+    In Body of Trigger, Identify Query with Object that has reference to DB Link
+
+    Validate the name from available DB Links using Dictionary "DBA_DB_LINKS"
+
+      select * from DBA_DB_LINKS;
+
+    We need to remove Reference to this DB Link in Trigger Body. For that Recompile trigger after update.
+

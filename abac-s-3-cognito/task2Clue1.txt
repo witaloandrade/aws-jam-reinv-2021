@@ -1,0 +1,5 @@
+ Clue 1:Getting Started
+
+You need to use the AWS CLI and find the right Congito command to update the user attributes.
+
+As the JAM challenge answer, submit the username of the user.

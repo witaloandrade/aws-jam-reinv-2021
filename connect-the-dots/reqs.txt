@@ -1,0 +1,61 @@
+
+
+Your company was recently in the news about its quality products with reasonable prices. Sales have grown exponentially due to the publicity. Last week, the team identified an api-key which is used to validate the user request is out of date and needs replacement. While working on this enhancement, the AWS Services within this serverless architecture lost connectivity between them. The CTO wants to fix this quickly as this could damage the companies hard earned reputation and trust. You are the AWS Cloud Architect selected to start investigating the root cause and fix it.
+
+
+
+
+Background
+Your company was recently in the news about its quality products with reasonable prices. Sales have grown exponentially due to the publicity. Last week, the team identified an api-key which is used to validate the user request is out of date and needs replacement. While working on this enhancement, the AWS Services within this serverless architecture lost connectivity between them. The CTO wants to fix this quickly as this could damage the companies hard earned reputation and trust. You are the AWS Cloud Architect selected to start investigating the root cause and fix it.
+
+
+The initial investigation revealed that an AWS Step Function gets data from an Amazon API Gateway endpoint and stores it in an Amazon Simple Storage Service (S3) bucket. The Amazon API Gateway RESTAPI validates the incoming request and only provides a response after a successful validation. The AWS Lambda function is updated to validate with the new api-key as part of a recent enhancement request. At present, the step function is failing because of a Bad request. Header value does not match. Please provide a valid header.
+
+As an AWS Cloud Architect, you need to investigate the root cause and bring the application to normalcy.
+
+Inventory
+
+To facilitate this task, the following has been setup in this environment.
+
+    An AWS Step Function.
+    AWS Lambda Functions.
+    An Amazon API Gateway RESTAPI. URL can be found in output properties.
+    AWS IAM Roles required for completing this task.
+    Amazon Simple Storage Service (S3) bucket. Bucket name can be found in output properties.
+
+Your Task
+
+As an AWS Cloud Architect, you need to identify the root causes and fix issues. You need to make sure that all the existing AWS Services are connected and things are back to normal.
+Getting Started
+
+Check the Output Properties tab and get to know the AWS services that are used in the application.
+
+    Click on state machine with name Gateway-S3-Connector-State-Machine
+    Make sure you are in the region that this challenge is deployed.
+    Navigate to Step Functions in AWS Services.
+    Select the recent execution from Executions tab.
+
+Steps to re-run the step function:
+
+    Navigate to Step Functions in AWS Services.
+    Make sure you are in the region that this challenge is deployed.
+    Click on state machine with name Gateway-S3-Connector-State-Machine
+    Select Start Execution.
+    Do not change input and click again on Start Execution.
+
+Architecture Diagram
+
+
+Task Validation
+The task gets automatically completed once the AWS Services are connected and the task validation Lambda function can find the required file in Amazon Simple Storage Service (S3) bucket. In addition, you can always check your progress by clicking on Check my progress button in the challenge details 
+
+
+
+# How to:
+
+1-  Update  Headers: x-api-cert-key to abcd1234 - required on GatewayLambda line 5 ->  if header != "abcd1234":
+?x-api-cert-key=abcd1234
+
+2- Add s3 and lambda access to arn:aws:iam::004260893038:role/JamChallengeStateRole
+
+3- Increase lambda execution Timeout it had one second

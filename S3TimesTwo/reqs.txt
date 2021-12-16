@@ -1,0 +1,147 @@
+ Task 1: Create the Destination Bucket and Configure
+Possible Points: 23 Clue Penalty: 0 Points Available: 23
+Background
+
+Your first task is to create a secure S3 bucket for your replicated/destination objects.
+
+Getting Started
+
+    Create a bucket with a unique name: https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html
+    Secure the bucket
+    Make sure it can accept version controlled objects
+    For Object Ownership, choose ACLs enabled AND Object writer.
+    Enter this destination bucket name into the Parameter Store where Parameter Name = JamDestBkt
+
+Inventory
+
+    Source S3 Bucket
+    S3 Source IAM Role
+    S3 IAM Policy
+
+Services that you need
+
+    S3
+    SSM parameter Store
+
+Task Validation
+
+The task will auto-validate once you complete your task. To verify manually, click Check Progress in the JAM console.
+
+
+
+ Task 2: Update S3 Replication IAM Policy
+Possible Points: 23 Clue Penalty: 0 Points Available: 23
+Background
+
+Now that you have the S3 bucket created you need to update the S3 Replication Role that is already created for you. This role needs to have the correct permissions to accept bucket objects from another source bucket.
+
+Getting Started
+
+    Update the S3 source role with the your new Destination bucket name.
+    Fix the missing action in the policy for replication role
+
+      - Hint "Action":"S3:*" is not the missing action due to best practices being considered
+      - The policy action should follow this format: 
+            "Action": [
+                    "s3:MISSING_ACTION_GOES_HERE",
+                    "s3:ObjectOwnerOverrideToBucketOwner",
+                    "s3:GetObjectRetention",
+                    "s3:GetObjectVersionTagging",
+                    "s3:ReplicateTags",
+                    "s3:GetObjectVersionAcl",
+                    "s3:ListBucket",
+                    "s3:GetObjectVersionForReplication",
+                    "s3:GetObjectLegalHold",
+                    "s3:GetReplicationConfiguration",
+                    "s3:ReplicateDelete"
+                ],
+
+    Inventory
+    Source S3 Bucket
+    S3 Source IAM Role
+    S3 IAM Policy
+    Destination S3 bucket
+
+Services that you need
+
+    S3
+    IAM
+    SSM Parameter Store
+
+Troubleshooting
+
+Check out this documentation on Managing Storage: https://docs.aws.amazon.com/AmazonS3/latest/userguide/managing-storage.html
+Task Validation
+
+The task will auto-validate once you complete your task. To verify manually, click Check Progress in the JAM console.
+
+Solution
+policy was missing   "s3:ReplicateObject",
+
+https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication-walkthrough1.html
+
+
+ Task 3: Update Bucket Policy &amp; Create Bucket Replication
+Possible Points: 104 Clue Penalty: 0 Points Available: 104
+Background
+
+At this point you have a source and destination bucket created but need to provide the appropriate policies to allow replication.
+Getting Started
+
+    Update your newly created Destination Bucket policy
+    Create a Replication Configuration in your source bucket
+
+Inventory
+
+    Source S3 Bucket
+    S3 Source IAM Role
+    S3 IAM Policy
+    Destination S3 bucket
+    replicated_file.csv (auto-generated)
+    Bucket Policy:
+
+{
+  "Version": "2012-10-17",
+  "Id": "s3-bucket-policy",
+  "Statement": [
+    {
+      "Sid": "S3PolicyStmt-bucket-statement",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::REPLACE ME WITH YOUR LAB ACCOUNT ID:root"
+      },
+      "Action": [
+        "s3:GetBucketVersioning",
+        "s3:PutBucketVersioning",
+        "s3:ReplicateObject",
+        "s3:ReplicateDelete",
+        "s3:ObjectOwnerOverrideToBucketOwner"
+      ],
+      "Resource": [
+        "arn:aws:s3:::REPLACE-ME-WITH-YOUR-DESTINATION-BUCKET",
+        "arn:aws:s3:::REPLACE-ME-WITH-YOUR-DESTINATION-BUCKET/*"
+      ]
+    }
+  ]
+}
+
+Services that you need
+
+    S3
+    IAM
+    SSM Parameter Store
+
+Task Validation
+
+The task will auto validate once you complete your task. It will also generate a file called replicated_file.csv and replicate it to your destination bucket. You can verify manually click Check Progress in the JAM console.
+Replication could take 2-5 minutes
+
+
+
+How to 
+https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication-example-walkthroughs.html
+
+https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication-walkthrough1.html
+
+
+

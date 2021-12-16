@@ -1,0 +1,33 @@
+Overview
+
+Your company is improving their web application security using AWS WAF and allow only known uri regex patterns and block any unknown uri pattern.
+
+Scenario: There is a Web application configured with ALB with URI filteration WAF will be configured to block for the right uri path. When User access the web application url , WAF will block the request. User has to find out the block and modify WAF rule to allow the uri path. After remediation User will again hits url from browser , he will be able to access the web application.
+
+
+
+
+
+Background
+
+Team developed a website using AWS Lambda  and deployed behind AWS Application Load Balancer. Security is most important aspect in organization, hence application access only allowed from know uri patterns. But for some reason , when user access with known url pattern i.e, /install also gets blocked and getting 403 forbidden. you have to find the reason and fix the issue.
+
+Getting Started
+
+
+Fetch Load balancer url from output properties and append "/install" at the end and browse the url from web browser.
+
+i.e {VulnAppURL}/install
+
+Services you should use
+
+    Lambda function
+    ALB
+    WAFv2
+
+Task Validation
+
+Copy the Text displayed on webpage after successful access of the page and put in "Submit Answer" Text box and and click on "Submit Answer".
+
+# How To
+Replace ACL rule deny to allow

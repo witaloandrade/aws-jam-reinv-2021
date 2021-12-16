@@ -1,0 +1,7 @@
+ Clue 2:AWS Documentation References
+
+    Execute the GetId CLI command to get the Identity Id. GetId CLI command reference: https://docs.aws.amazon.com/cli/latest/reference/cognito-identity/get-id.html
+    Execute the GetCredentialsForIdentity to get the temporary AWS Credentials. It requires Identity Id which is obtained from GetId call. GetCredentialsForIdentity reference: https://docs.aws.amazon.com/cli/latest/reference/cognito-identity/get-credentials-for-identity.html
+    Export the credentials in the command line. Configure your AWS CLI with profile: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
+    Make GetObject CLI command to download the file from the S3 bucket containing the coordinates. S3 GetObject CLI command reference: https://docs.aws.amazon.com/cli/latest/reference/s3api/get-object.html
+

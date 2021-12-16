@@ -1,0 +1,90 @@
+Background:
+After experiencing multiple outages due to issues in your current data center, you decided to move your servers to AWS. In order to make the migration as quick and seamless as possible, you took a lift and shift strategy when migrating servers. Now that your file server resides in AWS, you would like to move your files to S3 using the AWS DataSync service and then decommission your file server.
+
+Your Task:
+As the Cloud Services Engineer for your company, you have been instructed to use AWS DataSync to copy files from the NFS file server to S3.
+
+Getting Started:
+The NFS share is called “/share”. Use the S3 bucket that begins with "destination-". Use the role that starts with "DataSync-S3-Jam-Role". The details of the NFS file server instance and the DataSync agent instance can both be found in the EC2 console. Note: When you are creating the task, change Log level to “Do not send logs to CloudWatch”
+
+Inventory:
+EC2 instance running DataSync agent
+
+EC2 instance hosting the NFS share
+
+S3 Bucket
+
+Services You Should Use:
+AWS DataSync
+
+Task Validation:
+The task will automatically complete once the files have been copied to the S3 Bucket.
+
+
+ Task 1: Copy files from NFS share to S3
+Possible Points: 26 Clue Penalty: 0 Points Earned: 26
+Completed!
+Background:
+After experiencing multiple outages due to issues in your current data center, you decided to move your servers to AWS. In order to make the migration as quick and seamless as possible, you took a lift and shift strategy when migrating servers. Now that your file server resides in AWS, you would like to move your files to S3 using the AWS DataSync service and then decommission your file server.
+
+Your Task:
+As the Cloud Services Engineer for your company, you have been instructed to use AWS DataSync to copy files from the NFS file server to S3.
+
+Getting Started:
+The NFS share is called “/share”. Use the S3 bucket that begins with "destination-". Use the role that starts with "DataSync-S3-Jam-Role". The details of the NFS file server instance and the DataSync agent instance can both be found in the EC2 console. Note: When you are creating the task, change Log level to “Do not send logs to CloudWatch”
+
+Inventory:
+
+EC2 instance running DataSync agent
+
+EC2 instance hosting the NFS share
+
+S3 Bucket
+Services You Should Use:
+
+AWS DataSync
+Task Validation:
+The task will automatically complete once the files have been copied to the S3 Bucket. 
+
+
+ Task 2: Enable versioning for the S3 bucket
+Possible Points: 26 Clue Penalty: 0 Points Earned: 26
+Completed!
+Background:
+When the files were hosted on the NFS share, you often received requests to restore files that were accidentally deleted or changed. You had daily backups, but the restore process took a long time to complete. There were also situations where a file would be changed multiple times during the day and you didn’t have a backup of the version that your user needed, resulting in a loss of productivity. Now that your files are in an S3 bucket, you would like to have an easy way to restore any version of a file.
+
+Your Task:
+As the Cloud Services Engineer for your company, you have been instructed to activate S3 Versioning.
+
+Getting Started:
+There is an S3 bucket in your account that begins with "destination-". Navigate to this bucket and enable versioning.
+
+Inventory:
+S3 Bucket
+
+Services You Should Use:
+S3
+
+Task Validation:
+The task will automatically complete once versioning has been enabled on the S3 Bucket. 
+
+ Task 3: Restore a deleted S3 object
+Possible Points: 28 Clue Penalty: 0 Points Earned: 28
+Completed!
+Background:
+OOPS! A user just called you and urgently needs a file restored. They are not sure what the file was called, but thankfully it was deleted after you enabled versioning. Please restore the file so that the user can get back to work (there is only one deleted file in the bucket).
+
+Your Task:
+Restore the deleted file.
+
+Getting Stared:
+Navigate to the S3 bucket that begins with “destination-“.
+
+Inventory:
+S3 Bucket
+
+Services you should use:
+S3
+
+Task Validation:
+The task will automatically complete once the S3 object has been restored

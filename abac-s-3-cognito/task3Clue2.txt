@@ -1,0 +1,11 @@
+ Clue 2:AWS Documentation References
+
+    Enable the authentication provider by adding the Congito UserPool Name and client Id. Please refer the documentation: https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html
+
+    Enable Attributes for access control and add the following custom mapping as follows. Please refer the documentation: https://docs.aws.amazon.com/cognito/latest/developerguide/using-afac-with-cognito-identity-pools.html
+
+Tag key for principal: rank, Attribute name: custom:rank
+
+Tag key for principal: mission_name, Attribute name: custom:mission_name
+
+Note: Ignore the "There was a problem modifying this identity pool. Please try again." message. Please refresh the page and check if configuration is updated successfully.

@@ -1,0 +1,24 @@
+{
+    "Version": "2012-10-17",
+    "Id": "s3-bucket-policy",
+    "Statement": [
+      {
+        "Sid": "S3PolicyStmt-bucket-statement",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "arn:aws:iam::154934702768:root"
+        },
+        "Action": [
+          "s3:GetBucketVersioning",
+          "s3:PutBucketVersioning",
+          "s3:ReplicateObject",
+          "s3:ReplicateDelete",
+          "s3:ObjectOwnerOverrideToBucketOwner"
+        ],
+        "Resource": [
+          "arn:aws:s3:::paocomovo9876543456789",
+          "arn:aws:s3:::paocomovo9876543456789/*"
+        ]
+      }
+    ]
+  }

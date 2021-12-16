@@ -1,0 +1,13 @@
+{
+  "resourceType": "sagemaker",
+  "resource": "createTrainingJob.sync",
+  "error": "SageMaker.AmazonSageMakerException",
+  "cause": "User: arn:aws:sts::866493737658:assumed-role/LabStack-prewarm-062dd797-d263-4-StepFunctionsRole-14BF1RC58F7FH/jMZFViLeRkSgBLDYViOcKGjOZpDwewgK is not authorized to perform: sagemaker:CreateTrainingJob on resource: arn:aws:sagemaker:ap-southeast-2:866493737658:training-job/job-ae3d0021-f3ed-401c-8f58-0a093138f255 because no identity-based policy allows the sagemaker:CreateTrainingJob action (Service: AmazonSageMaker; Status Code: 400; Error Code: AccessDeniedException; Request ID: e63070fc-b45c-45dc-a0c1-9945af819e0f; Proxy: null)"
+}
+
+
+
+ arn:aws:iam::866493737658:role/StepFunctionsAccess-40904 NÂO tem acesso ao sagemaker
+
+ Trying
+ arn:aws:iam::866493737658:role/StepFunctionsAccess-17008

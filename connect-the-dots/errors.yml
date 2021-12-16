@@ -1,0 +1,32 @@
+
+# 1
+{
+  "body": {
+    "statusCode": 400,
+    "body": "Bad request. Header value does not match. Please provide a valid header.",
+    "bucketName": "labstack-prewarm-3315ee89-7-jamchallengebucket001-4sjeje2zkt07",
+    "headerVal": "pqrs1234"
+  },
+  "statusCode": 200
+}
+
+
+
+# 2
+{
+  "resourceType": "lambda",
+  "resource": "invoke",
+  "error": "Lambda.AWSLambdaException",
+  "cause": "User: arn:aws:sts::004260893038:assumed-role/JamChallengeStateRole/otHcvCEPpPPkIwlPFihbKbrHJzYBziHH is not authorized to perform: lambda:InvokeFunction on resource: arn:aws:lambda:us-east-2:004260893038:function:S3LambdaFunction:$LATEST because no identity-based policy allows the lambda:InvokeFunction action (Service: AWSLambda; Status Code: 403; Error Code: AccessDeniedException; Request ID: 32b6c760-3f79-448c-a6a4-dcdbb1a7e7be; Proxy: null)"
+}
+
+
+
+# 3
+
+{
+  "resourceType": "lambda",
+  "resource": "invoke",
+  "error": "Lambda.Unknown",
+  "cause": "The cause could not be determined because Lambda did not return an error type. Returned payload: {\"errorMessage\":\"2021-12-10T20:36:33.513Z 846b2c78-5054-4bac-b270-9e79544f1b5e Task timed out after 1.00 seconds\"}"
+}

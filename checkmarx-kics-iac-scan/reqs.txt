@@ -1,0 +1,46 @@
+Overview
+
+Following an embarrassing leak at Bento Industries, all AWS CloudFormation templates (CFTs) are now treated with the same level of inspection and assessment as application code. So they must pass through the same kind of pipeline testing before release.
+
+Since these measures were introduced, your team has not been able to deploy to any AWS environment because the CloudFormation template (CFT) is not passing the assessment in the build pipeline.
+
+Identify the High issue(s) in the CFT using the output from the KICS IaC scanner integrated with the AWS developer stack, and fix them to successfully deploy a VPC.
+Possible Points: 400 Clue Penalty: 0 Points Available: 400
+
+Background
+
+The Checkmarx open source Infrastructure-as-Code (IaC) scanning tool, KICS, has been integrated into the bentoindustries managed pipeline in AWS CodePipeline, and configured to fail the pipeline if high-risk security issues are found.
+
+Your Task
+
+    Review the AWS CodePipeline output from the KICS IaC scanner which unsuccessfully runs as one of three steps in the bentoindustries managed pipeline.
+    Identify and fix only the high-risk issues in the CFT located in the src folder in the bentoindustries managed repo in AWS CodeCommit to get the pipeline to successfully run and deploy an AWS VPC.
+
+Services you should use
+
+    AWS CodeCommit
+    AWS CodePipeline
+
+Restrictions
+
+    Only make modifications to the CFT (template.yaml) file. Any other modifications will disqualify you from the challenge.
+
+Getting Started
+
+Using the AWS Management Console, take a look at the bentoindustries managed pipeline in AWS CodePipeline.
+
+Can you fix the high-risk issues identified by the KICS scanner which are breaking the build? (Note: You do not need to fix medium or low-risk items in the CFT)
+
+Tools
+
+    The KICS open source Infrastructure-as-Code (IaC) scanner by Checkmarx.
+
+Task Validation
+
+Once you successfully deploy an AWS VPC, use the VPC ID specified in the output from that pipeline step and submit it in the Answer field.
+
+Good Luck!
+
+
+# how to
+Change CIDR and ports on line 205 and 215 template.yaml

@@ -1,0 +1,77 @@
+{
+    "Statement": [
+        {
+            "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:GenerateDataKey",
+                "kms:ReEncryptTo",
+                "kms:ReEncryptFrom",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:DeleteLogGroup",
+                "logs:DeleteLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "sns:Publish"
+            ],
+            "Resource": "arn:aws:sns:ap-southeast-2:866493737658:LabStack-prewarm-062dd797-d263-4813-892b-98b6689d3e21-shuRmYQ7j2JKJ8w8DYSShw-2-ManualApprovalSNSTopic-13K4R8MSUO0NL",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "cloudformation:CreateStack"
+            ],
+            "Resource": "arn:aws:cloudformation:ap-southeast-2:866493737658:stack/Production-*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "codebuild:StartBuild"
+            ],
+            "Resource": [
+                "arn:aws:codebuild:ap-southeast-2:866493737658:project/buildStepFunctionsProject-vbFgzVYLX0TI",
+                "arn:aws:codebuild:ap-southeast-2:866493737658:project/buildImageProject-PR62ST5DzaUj"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "states:StartExecution"
+            ],
+            "Resource": "arn:aws:states:ap-southeast-2:866493737658:stateMachine:trainingStateMachine-vaijI1tSLGbo",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "codecommit:UploadArchive",
+                "codecommit:CancelUploadArchive"
+            ],
+            "Resource": [
+                "arn:aws:codecommit:ap-southeast-2:866493737658:modelCode-d71fc0acd7f04cfaafbb39199321880c",
+                "arn:aws:codecommit:ap-southeast-2:866493737658:stateMachineCode-d71fc0acd7f04cfaafbb39199321880c"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::codepipeline-ap-southeast-2-*",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d263-4813-892-ecrbucket-1scbbh8x0rml1",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d26-modelartifactbucket-17blm74bf8db9",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d263-48-modeldatabucket-f27hx9w9g4be",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d263-4813-892-ecrbucket-1scbbh8x0rml1/*",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d26-modelartifactbucket-17blm74bf8db9/*",
+                "arn:aws:s3:::labstack-prewarm-062dd797-d263-48-modeldatabucket-f27hx9w9g4be/*"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}

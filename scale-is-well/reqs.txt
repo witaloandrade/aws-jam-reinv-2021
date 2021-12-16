@@ -1,0 +1,106 @@
+
+Overview
+
+The client has a business requirement where data producer applications need to put data into Amazon Kinesis Data Streams. Data from the data stream is consumed by a Lambda function. The user of this challenge will need to verify scaling and failure handling requirements of the application and configure the Kinesis Data Stream and Lambda function accordingly.
+
+
+
+ Task 1: Split to scale
+Possible Points: 38 Clue Penalty: 0 Points Available: 38
+Scenario
+An administrative application that monitors shard data-handling metrics has observed delay in processing data in the last shard, as there is a lot of data directed to it. To reduce data redirection into the last shard, it is decided to the split shard.
+
+Your task
+You have to split the last shard of Kinesis Data Stream.
+
+Inventory
+
+    Kinesis Data Stream (name: KinesisStreamForJam)
+
+Service and tools you should use
+
+    Kinesis data stream
+    AWS CLI
+
+Task Validation
+The task will validate automatically once the configuration has been completed, or you can run the Lambda function at the top of this page by clicking the "Check my Progress" button. 
+
+# How to
+aws kinesis split-shard
+https://awscli.amazonaws.com/v2/documentation/api/latest/reference/kinesis/split-shard.html
+
+
+
+ Task 2: Update shard count to scale
+Possible Points: 38 Clue Penalty: 0 Points Available: 38
+Scenario
+An administrative application that monitors shard data-handling metrics has observed delay in processing data. To adapt to the changes in the rate of data flowing through the stream, it is decided to increase the shard count.
+
+Your task
+You have to increase the shard count of the existing data stream to 8.
+
+Inventory
+
+    Kinesis Data Streams (name: KinesisStreamForJam)
+
+Service and tools you should use
+
+    Kinesis Data Streams
+    AWS CLI
+
+Task Validation
+The task will validate automatically once the configuration has been completed, or you can run the Lambda function at the top of this page by clicking the "Check my Progress" button. 
+
+
+ Task 3: Scale without split
+Possible Points: 38 Clue Penalty: 0 Points Available: 38
+Scenario
+An administrative application that monitors shard data-handling metrics has observed that the iterator age in each shard is high. To adapt to the changes in the rate of data flowing through the stream, it is decided to increase the Lambda invocations per shard.
+
+Your task
+You have to increase the number of concurrent Lambda invocations for each shard to 2.
+
+Inventory
+
+    Kinesis Data Streams (name: KinesisStreamForJam)
+    Lambda function (name: LambdaFunctionForJam)
+
+Service and tools you should use
+
+    AWS Console
+    Kinesis Data Streams
+    Lambda
+
+Task Validation
+The task will validate automatically once the configuration has been completed, or you can run the Lambda function at the top of this page by clicking the "Check my Progress" button. 
+
+# How to
+https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html#services-kinesis-configure
+
+
+
+https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html
+Concurrent batches per shard: 2
+
+
+ask 4: Avoid low throughput streaming
+Possible Points: 36 Clue Penalty: 0 Points Available: 36
+Scenario
+An administrative application that monitors shard data-handling metrics has observed that during non-peak hours there are only 100 records per minute. To adapt to the changes during non-peak hours, it is decided to wait before invoking the Lambda.
+
+Your task
+You have to increase the batch window size to 180.
+
+Inventory
+
+    Kinesis Data Streams (name: KinesisStreamForJam)
+    Lambda function (name: LambdaFunctionForJam)
+
+Service and tools you should use
+
+    AWS Console
+    Kinesis Data Streams
+    Lambda
+
+Task Validation
+The task will validate automatically once the configuration has been completed, or you can run the Lambda function at the top of this page by clicking the "Check my Progress" button. 

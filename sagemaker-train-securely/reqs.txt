@@ -1,0 +1,45 @@
+
+
+As an ML engineer for Veridian Technologies, you've developed an ML application that uses customers' order history to recommend additional products that they may enjoy. You are ready to deploy your solution to thousands of customers, but there's a catch. Your security consultant, Ted, has informed you that you need to encrypt all the resources in your pipeline to satisfy Veridian's requirements. Time is of the essence and there is no time to bring on a security expert to help; you will have to broaden your skill set and apply the fixes on your own.
+Possible Points: 150 Clue Penalty: 0 Points Available: 150
+Background
+
+You've made it, or at least you thought you had. You've spent the last month developing and testing your ML recommendation model. After all that hard work, you've finally built a highly accurate model that is sure to delight your customers and drive engagement with your site. But, when the day arrived to put it in production, you hit an unexpected snag.
+
+Your ML training pipeline, implemented as an AWS Step Function (jam-ml-training), gives you "Permission Denied" errors. Ted from the security team has helpfully informed you that the cause of the problem is that they have implemented policies that require you to encrypt all resources using a customer-managed KMS key. He mentioned that both the model training (SageMaker Training Step) and the model deployment (SageMaker CreateEndpointConfig) steps would need to have encryption added for the pipeline to work.
+Your Task
+
+Create a customer-managed key and modify your step function to ensure so that your SageMaker resources use this key when necessary to comply with your company policy. When you have done that, execute your step function to deploy your model!
+Getting Started
+
+Start out by going to the Step Functions console and find the jam-ml-training State Machine. Go ahead and run it (it does not require an input to run, so you can leave this field blank) and check out the error message you get. Permission denied. Your step function uses the jam-challenge-step-function-execution-role-REGION IAM role. Are there any conditions attached to that role that prevent you from performing your tasks?
+Inventory
+
+    State Machine: jam-ml-training
+    IAM Role: jam-challenge-step-function-execution-role-REGION
+
+Your solution also makes use of Amazon SageMaker, but all of the SageMaker resources are managed by your step function. This means that you do not need to use the SageMaker console to complete this challenge, but your are encouraged to explore the resources that your step function creates to get a better sense of the integration between these two services. You are welcome to inspect the very simple ML training code, but doing so is not necessary to solve the challenge.
+
+Your step function executes a lambda function that copies SageMaker data into your account for training. This lambda function, jam-copy-resources functions fine as-is. You do not need to modify this function to complete the challenge.
+Services You Should Use
+
+    Key Management Service
+    Step Functions
+    Identity and Access Management (Read-Only)
+    SageMaker (Read-Only)
+
+Task Validation
+
+When you've succesfully deployed your model, this challenge will be complete automatically, but, more importantly, you can sleep soundly knowing your data is encrypted at rest. Additionally, you can always check your progress by pressing the "Check my progress" button in the challenge details screen.
+
+Important: Your model must be "In Service" to complete this challenge. Once you've succesfully run your Step Function, switch to the SageMaker console to check the status of your Endpoint.
+
+
+# How to  add VolumeKmsKeyId  to Step Functions Workflow  task
+
+https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceConfig.html#sagemaker-Type-ResourceConfig-VolumeKmsKeyId
+
+Add KmsKeyId to CreateEndpointConfig
+"KmsKeyId": "string",
+
+https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpointConfig.html

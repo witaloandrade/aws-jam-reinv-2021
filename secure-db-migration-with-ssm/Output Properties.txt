@@ -1,0 +1,29 @@
+Output Properties
+DB2DBName 	TESTDB
+DB2SchemaName 	SAMPLE
+DB2SecretName 	secretDB2MasterUser
+DB2SecretNameARN 	arn:aws:secretsmanager:us-east-2:967922034138:secret:secretDB2MasterUser-FJjb1W
+DB2ServerHost 	10.1.55.7
+DB2ServerPort 	60000
+
+RDSDBName 	myjamdb
+RDSEndPointAddress 	aurora-cluster-jam21.cluster-cwf17vnnbuku.us-east-2.rds.amazonaws.com
+RDSEndPointPort 	5432
+RDSIAMRoleARN 	arn:aws:iam::967922034138:role/LabStack-prewarm-1a4f673b-3c9b-41e6-a044-c874-Role-1EPDVC0YWM4KP
+RDSSecretIdARN 	arn:aws:secretsmanager:us-east-2:967922034138:secret:secretPGdbMasterUser-vaxFXCDWnK5i-74YZ07 
+
+
+
+
+
+{
+  "dbClusterIdentifier": "aurora-cluster-jam21",
+  "password": "TkStzjin4E",
+  "dbname": "myjamdb",
+  "engine": "postgres",
+  "port": 5432,
+  "host": "aurora-cluster-jam21.cluster-cwf17vnnbuku.us-east-2.rds.amazonaws.com",
+  "username": "masteruser"
+}
+
+

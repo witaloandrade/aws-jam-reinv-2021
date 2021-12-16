@@ -1,0 +1,77 @@
+Overview
+
+AWSome Media distributes private contents to customers and needs a solution that is globally scalable, secured, and integrated with services against DDoS attacks. AWSome Media needs your expertise to prove out the solution on AWS.
+
+ Task 1: Secure S3 Bucket
+Possible Points: 30 Clue Penalty: 0 Points Available: 30
+Background
+
+AWSome Media wants to take a step-by-step approach in implementing the solution so that they can baseline the security controls. AWSome Media created an Amazon S3 bucket and uploaded two test files. They successfully restricted access to these files with AWS IAM and S3 bucket policy for both internal and external users. They validated that users cannot download the files or use the S3 object URL to access the file through a browser. However, the security team still says the S3 bucket is considered to be "public" per AWS guideline.
+
+Your challenge to secure the S3 bucket in accordance with AWS guideline of not "public".
+Getting Started
+
+First review how AWS defines the The Meaning of Public for S3 bucket. Next review the S3 bucket permissions to identify what need to be fixed.
+https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status
+
+
+Important
+Do NOT apply an "Effect": "Deny" to the S3 bucket policy. You could lock yourself out of making additional policy edits. Use an "Effect": "Allow" only
+Inventory
+
+A S3 bucket with the name similar to xxxxx-awsomemedia-xxxxxx has been provided to you.
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by pressing the “Check my progress” Button in the challenge details screen.
+
+
+
+
+Background
+
+AWSome Media wants to serve the private contents in Amazon S3 through Amazon CloudFront. In following security best practice of using the least privilege, they require only CloudFront can access the S3 contents and with limit action(s). In addition, the S3 bucket needs to remain secured at all time as the security team scans for "open" buckets regularly.
+
+Your challenge is to securely configure a S3 bucket policy to allow CloudFront to access the private contents.
+Getting Started
+
+Review Amazon CloudFront Configuring secure access and restricting access to content for S3 content.
+Inventory
+
+Use the same S3 bucket from Task 1. We also have already provisioned a CloudFront distribution with the description of AWSome Media CloudFront Distribution and linked it to the S3 bucket.
+Task Validation**
+
+Once you have configured CloudFront and S3 correctly, open your CloudFront domain url http://xxxxxyyyy.cloudfront.net and you will find a code. Enter that code in the Answer box above. We will verify if this task is completed in full.
+
+
+
+https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/SecurityAndPrivateContent.html
+
+
+ask 3: What Is The Secret Code
+Possible Points: 75 Clue Penalty: 0 Points Available: 75
+Background
+
+You secured the Amazon S3 bucket and configured Amazon CloudFront Origin Access Identity (OAI) to access the contents. You are able to access http://xxxxxyyyy.cloudfront.net fine. Have your tried http://xxxxxyyyy.cloudfront.net/secret.html? If you did you would get the following 403 Error:
+
+CloudFront 403 Error
+
+Apparently AWSome Media is testing a DDoS service integrated with this CloudFront distribution. Can you figure out how it is done and unblock secret.html to get the secret code?
+Getting Started
+
+Review AWS WAFv2 Rule. Then navigate to AWS WAF & Shield management console to find the rule and try to deconstruct the logic. You don't need to make updates to the rule.
+
+Hint
+This rule is global in nature.
+Inventory
+
+AWS WAFv2 Web ACLs
+Task Validation
+
+Once you figured out how the rule works, modify the URL https://xxxxxyyyy.cloudfront.net/secret.html accordingly to unlock the code in secret.html. Enter the code in the Answer box above. We will verify if this task is completed in full.
+
+# How to:
+Build query url with parameters
+
+https://docs.aws.amazon.com/waf/latest/developerguide/classic-web-acl-string-conditions.html
+
+http://d3vceg11lz7fdk.cloudfront.net/secret.html?bzk1hqmvt476tj6qk172zu=passcode

@@ -1,0 +1,27 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:ReplicateObject",
+                "s3:ListBucket",
+                "s3:GetReplicationConfiguration",
+                "s3:GetObjectVersionForReplication",
+                "s3:GetObjectVersionAcl",
+                "s3:GetObjectVersionTagging",
+                "s3:GetObjectRetention",
+                "s3:GetObjectLegalHold",
+                "s3:ReplicateDelete",
+                "s3:ReplicateTags",
+                "s3:ObjectOwnerOverrideToBucketOwner"
+            ],
+            "Resource": [
+                "arn:aws:s3:::s3-jam-challenge-source-fd6cde40",
+                "arn:aws:s3:::s3-jam-challenge-source-fd6cde40/*",
+                "arn:aws:s3:::paocomovo9876543456789",
+                "arn:aws:s3:::paocomovo9876543456789/*"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}

@@ -1,0 +1,21 @@
+ Clue 2:Re-Create DB Link with Correct End Point Details
+
+    View each Procedure to Observe Reference to DB Link "CONNECT_TO_BRUCE" in it
+
+    Verify Public DB Link from "DBA_DB_LINKS" with invalid "USING" Clause for TNS Details
+
+      select * from DBA_DB_LINKS;
+
+    DB Link is pointing to On-Premises Schema. Modify it with details from Output Properties section
+
+    From Outputs, Use "BRUCE" user and TNS Details to update Database Link
+
+To update TNS Details
+
+    First Drop Database Link and Recreate it using Syntax below
+
+drop public database link connect_to_bruce;
+
+create public database link connect_to_bruce
+     connect to bruce identified by cat
+     using 'Endpoint.Address:Endpoint.Port/ORCL';

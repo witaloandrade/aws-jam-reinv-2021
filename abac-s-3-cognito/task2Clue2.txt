@@ -1,0 +1,5 @@
+ Clue 2:AWS Documentation References
+
+To update the value of custom user attributes, use AdminUpdateUserAttributes. Please refer the documentation for syntax: https://docs.aws.amazon.com/cli/latest/reference/cognito-idp/admin-update-user-attributes.html
+
+As the JAM challenge answer, submit the username of the user.

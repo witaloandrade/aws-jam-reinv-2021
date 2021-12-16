@@ -1,0 +1,82 @@
+Overview
+
+You've joined company XYZ as an AWS intern.
+
+As part of your first task, your mentor has instructed you to allow SSH access to the recently installed EC2 Server machines using SSH keypair file. You have access to the keypair file, however you're unable to SSH into the EC2 instance machine.
+
+You quickly checked and verified that the instance has a public IP but still SSH is failing when you try to do it from your laptop. It fails from your colleague's laptop as well. Troubleshoot the setup to find out what is broken and fix it so that you are able to SSH into the machine using keypair file.
+
+Are you up to solve this challenge and impress your mentor?
+
+
+
+ Task 1: Security Group Validation
+Possible Points: 30 Clue Penalty: 0 Points Available: 30
+Your Task
+
+While working on a project in the past, you got to know that Security groups act as a firewall for associated Amazon EC2 instances, controlling both inbound and outbound traffic at the instance level.
+
+So how about giving it a look associated with your EC2 machine? You need to verify that the rules are in place to accommodate SSH traffic
+Getting Started
+
+You can find information on modifying security groups through this documenation : https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SG_Changing_Group_Membership
+Inventory
+
+1 X EC2
+Services you should use
+
+EC2, VPC, Security Groups
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.
+
+
+ Task 2: Route Table Validation
+Possible Points: 45 Clue Penalty: 0 Points Available: 45
+Your Task
+
+Fix the route table associated to subnet in which EC2 has been launched.
+Getting Started
+
+You can find information on AWS VPC route tables through this documentation : https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html
+Inventory
+
+1 X VPC
+Services you should use
+
+VPC, Route Tables
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.
+
+
+
+Your Task
+
+Now that you have fixed the Security Group and Route Table, you try to SSH using the SSH keypair file and public IP (found in the Outputs section):
+
+ssh -i keypairFile.pem ec2-user@publicIp
+
+However, it fails! Hmm... On checking the system logs in your internal tool, you figured out that the SSH daemon was stopped!
+
+You need to get the SSH daemon back up and running without an SSH connection! How else can you connect?
+
+NOTE - You have access to Reboot the EC2 Instance.
+Getting Started
+
+A quick check on this documentation can be helpful : https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html
+Inventory
+
+1 X EC2
+Services you should use
+
+EC2, Session Manager
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.
+
+
+# How to:
+1 - Fix sg rule add port 22 anywhere
+2 - Fix Route add anywhere to igw
+3 -  Add ssm role to ec2, restart ec2, connect and enable ssh

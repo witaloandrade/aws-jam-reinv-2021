@@ -1,0 +1,45 @@
+
+
+You have been hired by VeeWrap Inc, a telecom company, as a database performance consultant to tune and optimize the database workloads. The application team have raised concerns that the response times for some of their queries are slow. You have been tasked to investigate and resolve the underlying issue.
+Possible Points: 80 Clue Penalty: 0 Points Available: 80
+Background
+
+The front end application issues Select SQL statement on the following tables frequently. The application team have raised concerns that the SQL query response time have been gradually increasing.
+
+    jam.jam1
+    jam.jam2 
+
+Based on some initial checks, you have figured out that both the tables are heavily bloated and decided to schedule VACUUM ANALYZE on these tables for every three minutes to automatically clear the bloat.
+Your task
+
+You will have to enable pg_cron extension using the command below in the database first before scheduling the maintenance jobs. However, there seems to be some issues while enabling it.
+
+create extension pg_cron;
+
+You need to resolve the issues to enable the extension successfully and schedule the jobs using following SQL commands:
+
+SELECT cron.schedule('vacuum-1','*/03 * * * * ', 'VACUUM ANALYZE jam.jam1');
+SELECT cron.schedule('vacuum-2','*/03 * * * * ', 'VACUUM ANALYZE jam.jam2');
+
+Once the jobs are scheduled, use the SQL select * from cron.job; to get the job configuration details.
+Getting Started
+
+Open AWS console and navigate to EC2 in services and connect to the EC2 instance using Session manager. To know how to connect using session manager, please refer EC2SesslonManager. Check the output properties tab to get the details of EC2 instance name to which you need to connect.
+Inventory
+
+Your AWS account is provisioned with:
+
+    Amazon EC2 Instance
+    Amazon Aurora PostgreSQL database cluster
+
+In order to connect to Amazon Aurora PostgreSQL from EC2 Instance, run the following from the Linux EC2 instance to switch the user to ec2-user.
+
+  sudo su - ec2-user
+
+The ec2-user bash_profile on your EC2 Instance is already populated with Aurora PostgreSQL database and login details. Hence, just type the command psql and hit enter/return to connect to Amazon Aurora in command line mode and work on the task.
+Task Validation
+
+Check the status of the job schedule after 3 minutes using SQL select * from cron.job_run_details; from psql command line .Once the status turns SUCCEEDED, you will find a file created in /tmp location on EC2 with name task-1-result. Copy the content and enter the same at the top of this page which says Enter answer here and click Submit Answer to complete the task.
+
+How to 
+https://aws.amazon.com/premiumsupport/knowledge-center/rds-postgresql-resolve-preload-error/

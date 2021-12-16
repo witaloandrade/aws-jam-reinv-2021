@@ -1,0 +1,143 @@
+{
+  "Name": "WebACL",
+  "Id": "3aa48879-11f7-45d0-8f20-438ad5d01d83",
+  "ARN": "arn:aws:wafv2:us-east-1:201859403296:regional/webacl/WebACL/3aa48879-11f7-45d0-8f20-438ad5d01d83",
+  "DefaultAction": {
+    "Block": {}
+  },
+  "Description": "WebACL",
+  "Rules": [
+    {
+      "Name": "url_regex",
+      "Priority": 0,
+      "Statement": {
+        "ByteMatchStatement": {
+          "SearchString": "/install",
+          "FieldToMatch": {
+            "UriPath": {}
+          },
+          "TextTransformations": [
+            {
+              "Priority": 0,
+              "Type": "NONE"
+            }
+          ],
+          "PositionalConstraint": "CONTAINS"
+        }
+      },
+      "Action": {
+        "Allow": {}
+      },
+      "VisibilityConfig": {
+        "SampledRequestsEnabled": true,
+        "CloudWatchMetricsEnabled": true,
+        "MetricName": "url_regex"
+      }
+    },
+    {
+      "Name": "CoreRuleWithAWSManagedRules",
+      "Priority": 1,
+      "Statement": {
+        "ManagedRuleGroupStatement": {
+          "VendorName": "AWS",
+          "Name": "AWSManagedRulesCommonRuleSet"
+        }
+      },
+      "OverrideAction": {
+        "None": {}
+      },
+      "VisibilityConfig": {
+        "SampledRequestsEnabled": true,
+        "CloudWatchMetricsEnabled": true,
+        "MetricName": "CoreRuleWithAWSManagedRulesMetric"
+      }
+    },
+    {
+      "Name": "SQLiRuleWithAWSManagedRules",
+      "Priority": 2,
+      "Statement": {
+        "ManagedRuleGroupStatement": {
+          "VendorName": "AWS",
+          "Name": "AWSManagedRulesSQLiRuleSet"
+        }
+      },
+      "OverrideAction": {
+        "None": {}
+      },
+      "VisibilityConfig": {
+        "SampledRequestsEnabled": true,
+        "CloudWatchMetricsEnabled": true,
+        "MetricName": "SQLiRuleWithAWSManagedRulesMetric"
+      }
+    },
+    {
+      "Name": "WinRuleWithAWSManagedRules",
+      "Priority": 3,
+      "Statement": {
+        "ManagedRuleGroupStatement": {
+          "VendorName": "AWS",
+          "Name": "AWSManagedRulesWindowsRuleSet"
+        }
+      },
+      "OverrideAction": {
+        "None": {}
+      },
+      "VisibilityConfig": {
+        "SampledRequestsEnabled": true,
+        "CloudWatchMetricsEnabled": true,
+        "MetricName": "WinRuleWithAWSManagedRulesMetric"
+      }
+    },
+    {
+      "Name": "BadInputsRuleWithAWSManagedRules",
+      "Priority": 4,
+      "Statement": {
+        "ManagedRuleGroupStatement": {
+          "VendorName": "AWS",
+          "Name": "AWSManagedRulesKnownBadInputsRuleSet"
+        }
+      },
+      "OverrideAction": {
+        "None": {}
+      },
+      "VisibilityConfig": {
+        "SampledRequestsEnabled": true,
+        "CloudWatchMetricsEnabled": true,
+        "MetricName": "BadInputsRuleWithAWSManagedRulesMetric"
+      }
+    },
+    {
+      "Name": "BlockXssAttack",
+      "Priority": 5,
+      "Statement": {
+        "XssMatchStatement": {
+          "FieldToMatch": {
+            "AllQueryArguments": {}
+          },
+          "TextTransformations": [
+            {
+              "Priority": 1,
+              "Type": "NONE"
+            }
+          ]
+        }
+      },
+      "Action": {
+        "Block": {}
+      },
+      "VisibilityConfig": {
+        "SampledRequestsEnabled": true,
+        "CloudWatchMetricsEnabled": true,
+        "MetricName": "BlockXssAttackMetric"
+      }
+    }
+  ],
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "WebACLMetric"
+  },
+  "Capacity": 1360,
+  "ManagedByFirewallManager": false,
+  "LabelNamespace": "awswaf:201859403296:webacl:WebACL:"
+}

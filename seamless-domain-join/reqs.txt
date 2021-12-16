@@ -1,0 +1,118 @@
+Overview
+
+Your AD team recently deployed an AWS Managed Microsoft Active Directory. They have been informed that AWS Systems Manager service is configured to bootstrap Windows "WebServer" instances launched by EC2 Autoscaling to seamlessly join to the directory. They are recieving alerts of domain join failure for the instance launched. The AD team performed extensive troubleshooting to validate AD domain health and confirms directory status is "Active". They believe the issue is not with the directory but are not sure how to proceed due to limited knowlege on AWS Systems Manager functionality.
+
+As an AWS Administrator, you are responsible for validating the AWS Systems Manager configuration to automate seamless domain join.
+
+ Task 1: Know your domain
+Possible Points: 38 Clue Penalty: 0 Points Available: 38
+Background
+
+You are only informed that domain join is failing for EC2 instances, but the team missed to share any information about the directory.
+Your Task
+
+Locate the Managed Active directory domain on the AWS console and identify the directory ID
+Getting Started
+
+Here's a reference that might help you
+
+https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_view_directory_info.html
+Inventory
+
+1 X Directory
+Services you should use
+
+AWS Directory Services
+Task Validation
+
+To complete the task, find the Directory ID and key it in the challenge answer input box.
+
+
+
+ Task 2: Fix Domain Join Association failure
+Possible Points: 75 Clue Penalty: 0 Points Available: 75
+Background
+
+Based on the desired capacity, The "WebServerAutoScalingGroup" AutoScaling Group has launched one "WebServer" EC2 instance.
+
+This instance appears to be managed by SSM. From the AWS Systems Manager console -> Fleet Manager tab it is noticed that for the instance
+
+    SSM Agent ping Status is "Online"
+    But, Association status = "Failed"
+
+The Association status indicates whether the EC2 instance is domain joined or not.
+Your task
+
+Get the instance domain joined seamlessly through AWS Systems Manager (not manual domain join) so its association status reports as "Success".
+Getting Started
+
+To manually check the domain join status of the instance try one of the below two ways:
+
+    From the Fleet Manager tab, click on the instance ID and under Instance Overview, you can navigate to the below Windows registry path for the instance to confirm if the instance is domain joined or not.
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Domain
+
+OR
+
+    You can connect to a Powershell session on the EC2 instance from EC2 console -> Connect tab -> Session Manager and verify if instance is domain joined using the below cmdlet
+
+$key = "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters"
+
+(Get-ItemProperty -Path $key -Name Domain).Domain
+
+An empty value for Domain name thus indicates it is not domain joined. Hence, the association is failing.
+
+Here's a link that can help you get started to review the association. Keep exploring. Can you locate what's causing the problem with the association and fix it?
+
+https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-state-assoc-history.html#sysman-state-assoc-history-console
+Inventory
+
+The AWS Systems Manager State Manager association to facilitate domain join has been provisioned
+Services you should use
+
+EC2, AutoScaling, AWS Systems Manager
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.
+
+
+# How to
+Fixed the ssm document domainJoinDocument, wrong directory name,id and ip
+
+
+
+
+ Task 3: Configuration at Scale
+Possible Points: 37 Clue Penalty: 0 Points Available: 37
+Background
+
+Bravo! You have successfully managed to seamlessly join this one "WebServer" instance to the Active Directory domain "oncloud.local". The team is now relieved.
+
+However, they are now concerned and have the below questions
+
+    The problem is fixed for this one WebServer instance, but would it now repeat for new instances launched by AutoScaling.
+    Is the configuration change you performed consistent when scale out event occurs?
+    Will the new instances spun up by AutoScaling domain join automatically?
+    Is there a need to do a manual configuration change for new instances launched everytime?
+
+Your task
+
+Demonstrate a scale out event, observe what happens and put the above outstanding questions to rest.
+Getting Started
+
+Here's a link to nudge you in the right direction
+
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html#as-lifecycle-scale-out
+Inventory
+
+AutoScaling Group "WebServerAutoScalingGroup" has been provisioned
+Services you should use
+
+AutoScaling
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.
+
+
+# How to 
+Change Desired capacity on Auto Scaling groups

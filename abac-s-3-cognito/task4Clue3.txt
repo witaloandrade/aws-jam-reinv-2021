@@ -1,0 +1,33 @@
+ Clue 3:Detailed Steps
+
+Firstly, get the temporary credentials using the below CLI commands in below order:
+
+    GetId: aws cognito-identity get-id --identity-pool-id "<\identity-pool-id>" --region "<\region>" --logins cognito-idp."<\region>".amazonaws.com/"<\user-pool-id>"="<\id-token>"
+    GetCredentialsForIdentity: aws cognito-identity get-credentials-for-identity --identity-id "<\identity-id>" --region "<\region>" --logins cognito-idp."<\region>".amazonaws.com/"<\user-pool-id>"="<\id-token>"
+
+Find the following values at:
+
+    Client Id: You will find the Client Id in App Client section under General settings.
+    UserPool Id: Click on the general settings tab and you will find the UserPool Id.
+    Id Token: Use the steps mentioned in Task 1 to login into UserPool to get the ID token.
+    Identity Pool Id: In the top-right corner of the Dashboard page, click Edit identity pool. The Edit identity pool page appears. You will find the Identity Pool Id there.
+    Identity id: It will be found in the response of the GetId CLI command.
+
+Once you get the credentials successfully, you need to configure your AWS CLI by running the below commands:
+
+    export AWS_REGION="<\value>"
+    export AWS_ACCESS_KEY_ID="<\value>"
+    export AWS_SECRET_ACCESS_KEY="<\value>"
+    export AWS_SESSION_TOKEN="<\value>"
+
+Lastly, run the GetObject CLI command to donwload the file:
+
+aws s3api get-object --bucket "<\value>" --key enemy_base_coordinates.txt enemy_base_coordinates.txt
+
+Note: Replace value with actual Cognito configuration.
+
+Bucket Name: xxxxx-neptunespear-xxxxxxxxxx
+
+Key: enemy_base_coordinates.txt
+
+Note: The bucket name can be obtained from the console. It will have neptunespear in its name. Replace x with the right value

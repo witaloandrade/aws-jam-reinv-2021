@@ -1,0 +1,9 @@
+aws kinesis describe-stream \
+    --stream-name KinesisStreamForJam
+
+
+
+aws kinesis split-shard \
+    --stream-name KinesisStreamForJam \
+    --shard-to-split shardId-000000000002 \
+    --new-starting-hash-key 226854911280625642308916404954512140990

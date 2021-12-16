@@ -1,0 +1,164 @@
+Overview
+
+You work for a top-secret government intelligence agency. You have given the task to destroy an enemy base. The enemy base location's coordinates are stored in a file present in an S3 bucket. The enemy group got to know about the plan and using an advanced algorithm, the enemy group attacked the authentication mechanism. Due to the attack, the authentication mechanism is broken but they were unable to destroy the S3 bucket. You are not able to login anymore and cannot get hold of the enemy base coordinates stored in a file in the S3 bucket.
+
+You have been tasked to configure the authentication system again to get the enemy base coordinates stored in a file. Once you get the coordinates, feed them to the missile system to destroy the enemy base.
+
+
+
+ Task 1: REGISTER A USER AND GET THE ID TOKEN
+Possible Points: 50 Clue Penalty: 0 Points Available: 50
+
+Background
+
+Your identity is deleted from the system. Hence, you first need to register yourself with the Government Agency and get an ID.
+
+Your Task
+
+A user pool is a user directory in Amazon Cognito. With a user pool, your users can sign in to your web or mobile app through Amazon Cognito.
+
+An App is an entity within a user pool that has permission to call unauthenticated API operations (operations that do not have an authenticated user). Examples include operations to register, sign in, and handle forgotten passwords.
+
+After successful authentication, Amazon Cognito user pools grants ID, access, and refresh tokens as defined by the OpenID Connect (OIDC) open standard:
+
+    The ID token contains claims about the identity of the authenticated user such as name, email, and phone_number.
+    The access token contains scopes and groups and is used to grant access to authorized resources.
+    The refresh token contains the information necessary to obtain a new ID or access token.
+
+Your task is to register a user in the Cognito UserPool. Then, you need to configure the Cognito UserPool and App client properly so that it can generate the ID Token.
+
+Getting Started
+
+    Open the AWS console.
+    Go into Amazon Cognito UserPool.
+    Create a new user in the UserPool.
+    Configure the UserPool App Client correctly so that it can generate the ID token.
+    Use the Hosted UI or the AdminInitiateAuth CLI command to get the ID token.
+    Verify if the user is in CONFIRMED state.
+
+Note: If you are going to use the Hosted UI, Check availability option while availing the domain name may not work at the moment, please save the changes directly. You need to make sure that the domain is unique. If you get an error, try putting a unique domain name.
+
+Inventory
+
+These are the resources created in this challenge:
+
+    Amazon Cognito UserPool
+
+Services you should use
+
+    Amazon Cognito
+
+Task Validation
+
+    You need to make sure that the user is in CONFIRMED state and can be used to obtain the ID token.
+    You will need to submit the username and password of the user you have create in the following format: username:password
+
+Lesson Learned
+
+Upon completion of this task, you will learn how to register a user in the Cognito User Pool and use it to obtain the ID tokens.
+
+
+
+
+
+
+
+
+
+ Task 2: ADDING CUSTOM ATTRIBUTES IN THE ID TOKEN
+Possible Points: 50 Clue Penalty: 0 Points Available: 50
+
+Background
+
+You are registered into the system. However, the system cannot recognize your rank and if you are assigned with the mission to destroy the enemy base. To help the system confirm that you are the soldier chosen for the mission, you need to update the rank and mission name in the system.
+
+Your Task
+
+Attributes are pieces of information that help you identify individual users, such as name, email, and phone number. But at times we need to add certain other values with regards to users. In this case, we used two custom attributes to keep a tab on mission details and rank. You could add custom attributes while creating a user pool or you could even edit the user pool to add custom attributes later.
+
+As a part of the task, the custom attributes rank and mission_name are already created. You need to just update the value of these two custom attributes for the user as follows:
+
+Attribute name: rank, Attribute value: colonel
+
+Attribute name: mission_name, Attribute value: neptunespear
+
+Getting Started
+
+    Open the AWS console.
+    Go into Amazon Cognito UserPool.
+    Navigate to Attributes sections and confirm if the rank and mission_name custom attributes are present.
+    Use the AdminUpdateUserAttributes CLI command to update the values for the attributes. Make sure to use the --region parameter while running the command to specify the aws region in which the UserPool is present.
+    Login again with the user as performed in Task 1 and confirm that the ID token now contains these two custom attributes. You can use https://jwt.io/ website to validate the Id token.
+
+Inventory
+
+These are the resources created in this challenge:
+
+    Amazon Cognito UserPool
+
+Services you should use
+
+    Amazon Cognito
+
+Task Validation
+
+    You need to make sure that the ID token of the user has the asked custom attribute with the right values.
+    You will need to submit the username of the user.
+
+Lesson Learned
+
+Upon completion of this task, you will learn how to add additional user attributes to the user pool schema.
+
+
+
+
+ Task 3: COGNITO IDENTITY POOL CONFIGURATION
+Possible Points: 50 Clue Penalty: 0 Points Available: 50
+
+Background
+
+Authentication is configured now. But one of the security requirements for you to access the file is to authorize yourself in order to access the S3 bucket.
+
+Your Task
+
+Amazon Cognito identity pools provide temporary AWS credentials for users who are guests (unauthenticated) and for users who have been authenticated and received a token. An identity pool is a store of user identity data specific to your account.
+
+For each identity type, there is an assigned role. This role has a policy attached to it which dictates which AWS services that role can access. When Amazon Cognito receives a request, the service will determine the identity type, determine the role assigned to that identity type, and use the policy attached to that role to respond. By modifying a policy or assigning a different role to an identity type, you can control which AWS services an identity type can access.
+
+Also, you can use IAM policies to control access to AWS resources through Amazon Cognito identity pools based on user attributes. These attributes can be drawn from social and corporate identity providers. You can map attributes within providers’ access and ID tokens or SAML assertions to tags that can be referenced in the IAM permissions policies.
+
+You can choose default mappings or create your own custom mappings in Amazon Cognito identity pools. The default mappings allow you to write IAM policies based on a fixed set of user attributes. Custom mappings allow you to select a custom set of user attributes that are referenced in the IAM permissions policies. The Attribute names in the Amazon Cognito console are mapped to Tag key for principal, which are the tags that are referenced in the IAM permissions policy.
+
+Your task is to configure the Identity Pool correctly so that the user that you created in the first task can get temporary AWS credentials and can access the object in the S3 bucket that contains the coordinates. Further, you need to create the custom mappings between PrincipalTags and user attributes.
+
+Getting Started
+
+    Open the AWS console.
+    Go into Amazon Cognito Identity Pool.
+    Under Authentication providers, add the UserPool name and App Client name.
+    Enable Attributes for access control and add the following custom mappings:
+
+Tag key for principal: rank, Attribute name: custom:rank
+
+Tag key for principal: mission_name, Attribute name: custom:mission_name
+
+Note: Ignore the "There was a problem modifying this identity pool. Please try again." message. Please refresh the page and check if configuration is updated successfully.
+
+Inventory
+
+These are the resources created in this challenge:
+
+    Amazon Cognito UserPool
+
+Services you should use
+
+    Amazon Cognito
+
+Task Validation
+
+    You need to make sure that the Identity Pool is configured with the Cognito UserPool as the authentication provider.
+    You need to make sure that the mappings between PrincipalTags and user attributes exist and are as expected.
+
+Lesson Learned
+
+Upon completion of this task, you will learn how to enable or edit authentication providers and use custom attributes mapping for access control as a form of attribute-based access control.

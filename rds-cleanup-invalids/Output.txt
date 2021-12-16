@@ -1,0 +1,9 @@
+Output Properties
+DBLinkPassword 	cat
+DBLinkTNS 	lojv86d8f6qa50.cywk0zuk5wwu.ap-south-1.rds.amazonaws.com:1521/ORCL
+DBLinkUsername 	bruce
+KeyName 	AWSLabsKeyPair-8C5n3veZv979tUuutDmZ5F
+LoginDBPassword 	tiger
+LoginDBUsername 	scott
+LoginTNS 	lojv86d8f6qa50.cywk0zuk5wwu.ap-south-1.rds.amazonaws.com:1521/ORCL
+PublicIP 	65.0.96.144

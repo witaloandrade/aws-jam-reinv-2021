@@ -1,0 +1,70 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAsync",
+            "Effect": "Allow",
+            "Action": [
+                "events:PutTargets",
+                "events:DescribeRule",
+                "events:PutRule"
+            ],
+            "Resource": [
+                "arn:aws:events:*:*:rule/StepFunctionsGetEventsFor*"
+            ]
+        },
+        {
+            "Sid": "AllowPassrole",
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::474985006916:role/jam-challenge-sagemaker-execution-role-eu-central-1",
+            "Condition": {
+                "StringEquals": {
+                    "iam:PassedToService": "sagemaker.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Sid": "EnforceEncryption",
+            "Effect": "Allow",
+            "Action": [
+                "sagemaker:CreateEndpointConfig",
+                "sagemaker:CreateTrainingJob",
+                "sagemaker:CreateProcessingJob"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "ArnEquals": {
+                    "sagemaker:VolumeKmsKey": "arn:aws:kms:eu-central-1:474985006916:key/*"
+                }
+            }
+        },
+        {
+            "Sid": "AllowOtherSageMaker",
+            "Effect": "Allow",
+            "Action": [
+                "sagemaker:CreateModel",
+                "sagemaker:CreateEndpoint"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AllowEncryption",
+            "Effect": "Allow",
+            "Action": [
+                "kms:CreateGrant",
+                "kms:ListGrants",
+                "kms:RevokeGrant"
+            ],
+            "Resource": "arn:aws:kms:eu-central-1:474985006916:key/*"
+        },
+        {
+            "Sid": "InvokeJamLambdas",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeFunction"
+            ],
+            "Resource": "arn:aws:lambda:eu-central-1:474985006916:function:jam-*"
+        }
+    ]
+}

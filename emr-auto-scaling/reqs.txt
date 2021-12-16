@@ -1,0 +1,87 @@
+ Task 1: WHERE DID MY WORDS GO???
+Possible Points: 16 Clue Penalty: 0 Points Available: 16
+Background
+
+Your EMR _(Elastic MapReduce)_ cluster has been successfully created and functional. It has also launched 2 spark jobs as EMR steps. One of the jobs named “SparkStep” is completed, which counted the words from sample dataset and wrote the output _SUCCESS file to results folder. You need to find that file and copy that file to a new S3 bucket prefixed with bingo.
+
+The new S3 bucket name SHOULD start with **"bingo"** and suffixed with an unique key. (For example: `bingo-number`).
+
+Copy the _SUCCESS file downloaded earlier to the new bingo-**** bucket created.
+Getting Started
+
+You can use this documentation to create a bucket
+
+https://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html
+
+Learning TIP - Not to test. If you want to try something quicker and automatically create the _SUCCESS file, you can clone the completed SparkStep. Change the argument for writing output file with the new bucket while cloning. SparkStep output location needs to be in “bucketname/foldername” format. You can read this documentation for cloning.
+
+https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-work-with-steps.html
+Inventory
+
+S3 Bucket
+Services you should use
+
+S3, EMR
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by pressing the “Check my progress” Button in the challenge details screen.
+
+Remember to find the _SUCCESS file and copy the file directly under the bucket which was created. Bucket name must start with bingo for the task to be completed and _SUCCESS file needs to be placed under the new bucket.
+
+
+ Task 2: Explore EMR configurations
+Possible Points: 24 Clue Penalty: 0 Points Available: 24
+Background
+
+You need to connect to your EMR cluster to do further analysis. To connect to the EMR cluster, you need the **Master Node Public DNS**. Once you find it, insert the value of **Master Node Public DNS** in to text field showing "Enter Answer here" and Submit Answer.
+Getting Started
+
+Start by looking into the EMR Console
+Inventory
+
+EMR
+Services you should use
+
+EMR
+Task Validation
+
+The task will be complete once you find the solution and click on Submit Answer.
+
+
+
+
+Task 3: Scale your cluster, lift the heavy job!
+Possible Points: 40 Clue Penalty: 0 Points Available: 40
+Background
+
+Not all the step jobs are so easy to process! Our second step is actually processing the real customer review data and taking ages to be processed (SparkStep2) and some more variable and heavy jobs could arrive tomorrow. This is a memory intensive job. You can see the status is still running and not completed. Our EMR cluster has been preconfigured with an autoscaling metric, but we believe this is not the right metric, as the job processing is still taking long time. Do you think you can identify the right metric to configure for the EMR cluster?
+
+    Wait for 5 minutes after start of the challenge for the metrics to appear. Go to the Monitoring/IO tab in the EMR console and analyze the metrics and create the autoscaling rule with the right metric you consider to scale this cluster.
+
+Look for the metric whose value has dropped suddenly to zero (almost near zero) from an initial high value.
+
+    Just CREATE the new autoscaling rule from console and select the correct metric and click on check my progress, no need to wait for the job to complete and wait for the autoscaling event to take place.
+
+Getting Started
+
+    To configure automatic scaling through EMR console you can refer to this link https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-automatic-scaling.html#emr-scaling-rules
+
+    Here is a document that addresses adjusting autoscaling metrics in EMR clusters: https://aws.amazon.com/blogs/big-data/best-practices-for-resizing-and-automatic-scaling-in-amazon-emr
+
+    Wait for 5 minutes after start of the challenge for the metrics to appear
+    Inventory
+
+    EMR
+    Services you should use
+
+    EMR, CloudWatch
+    Task Validation
+
+    The task will be automatically complete once you create the autoscaling metric.
+
+    Just create the new autoscaling rule with the correct metric. We are validating only the metric name for the Auto Scaling Rule. Also, no need to wait for the job to complete.
+
+    You can always check your progress by pressing the “Check my progress” Button in the challenge details screen.
+
+# How to 
+Create rule for MemoryAvailableMB

@@ -1,0 +1,30 @@
+ Clue 2:Remove Reference to Invalid DB Link
+
+    Query for Trigger information "ORAADMIN.BOOK_BEFORE_INSERT" using Dictionary Table (ALL_TRIGGERS)
+
+      select * from all_triggers where trigger_name = 'BOOK_BEFORE_INSERT' and owner = 'ORAADMIN';
+
+    Run Below Code to Re-create Trigger by remove reference to DB Link "CONNECT_TO_SCOTT"
+
+CREATE OR REPLACE TRIGGER ORAADMIN.BOOK_BEFORE_INSERT
+BEFORE INSERT
+ON oraadmin.book
+FOR EACH ROW
+DECLARE
+    v_username varchar2(10);
+BEGIN
+    SELECT user INTO v_username FROM dual;
+END;
+/
+
+    Run below SQL Statement to verify the update made to Trigger in above step
+
+      select text from all_source where name = 'BOOK_BEFORE_INSERT';
+
+
+
+
+
+
+# In line 
+CREATE OR REPLACE TRIGGER ORAADMIN.BOOK_BEFORE_INSERT BEFORE INSERT ON oraadmin.book FOR EACH ROW DECLARE v_username varchar2(10); BEGIN SELECT user INTO v_username FROM dual;END;/

@@ -1,0 +1,13 @@
+ Clue 1:Identify List of Remaining Invalid Objects
+
+    Verify the List of Invalid Objects remaining in "ORAADMIN" Schema
+
+      select object_name from all_objects where status = 'INVALID' and owner = 'ORAADMIN';
+
+    We Could see two Procedures with Status as "INVALID"
+
+      procedure oraadmin.CUSTOMERACCOUNT_LIBRARY
+      procedure oraadmin.LOGINCUSTOMER_LIBRARY
+
+    View the Procedues to Identify the problem within DB Link and correct it
+

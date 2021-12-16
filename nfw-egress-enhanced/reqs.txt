@@ -1,0 +1,123 @@
+
+Overview
+
+This JAM Challenge will walk you through configuring enhanced routing in your Egress or Inpsection VPC to insert a firewall between NAT Gateway in multiple AZ's and the Internet Gatway. This is new functionality as of August 2021 that allows re-directing ingress and inter-subnet traffic to the AWS Network Firewall.
+
+You are a new network security engineer at a financial institution. You are taking over for a former employee that has left the company in the middle of implementing AWS Network Firewall to block streaming video services for instances running in their AWS environment. You task is to implement the AWS Network Firewall endpoints, configure routing to utilize the endpoints, and add additional rules to the firewall policy.
+
+The company's AWS network consists of a single account and VPC, with instances in private subnets in two AZ's that egress out NAT GW's. Using the principals and best practice of AZI (Availability Zone Independence) implement AWS Network Firewall, and modify the VPC configuration to utilize this new feature.
+
+Here is the diagram of the VPC as deployed at the start of this assignment. Your predecessor created subnets for your firewall to live in, and create the base rule groups for you to use. Now it's up to you to finish the job.
+
+Note that you will use SSM to access the test instances within the private subnets.
+
+
+
+
+
+
+
+
+Task 1: Bring the Fire... wall 
+Your Task
+
+Before we create the Firewall, we need to create a Firewall Policy that is required when standing up AWS Network Firewall. Create a new AWS Network Firewall Policy and attach the two RuleGroup's that we created by your predecessor. They are named: "icmp-alert" and "domain-deny". Take a look at those RuleGroups to understand what they do.
+
+Once the policy is created, then build out a new AWS Network Firewall in the Inspection VPC. The endpoint subnets are already created and are labeled "Network Firewall Subnet A" and "Network Firewall Subnet B".
+Getting Started
+
+Check out the online documentation for AWS Network Firewall to get started: https://docs.aws.amazon.com/network-firewall/latest/developerguide/what-is-aws-network-firewall.html
+Inventory
+
+Pre-created inventory that you will interact with in this task:
+
+    AWS Network Firewall Rule Groups: "icmp-alert", "domain-deny"
+    Inspection VPC
+    Subnets: "Network Firewall Subnet A", "Network Firewall Subnet B"
+
+Services in use
+
+    AWS Network Firewall
+
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.
+
+
+
+
+
+
+
+
+
+
+
+
+Task 2: How do I use it? 
+
+Your Task
+
+Now that you have created the AWS Network Firewall, now you have to route traffic through it. Modify the route table for the NAT GW to use the Firewall to inspect outbound traffic before leaving the VPC. Keep in mind that return traffic has to come back through the firewall as well.
+
+Use the following diagram for proper routing. To validate, and assuming you attached the RuleGroups to the AWS Network Firewall Policy, you should be able to curl https://checkip.amazonaws.com but get a timeout from https://youtube.com
+
+Note that you will use SSM to access the test instances within the private subnets.
+
+Diagram
+Getting Started
+
+The diagram provided should be your end state. Check out the online documentation:
+
+    AWS Network Firewall: https://docs.aws.amazon.com/network-firewall/latest/developerguide/what-is-aws-network-firewall.html
+    VPC Configuration: https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html
+
+Inventory
+
+Pre-created inventory that you will interact with in this task:
+
+    Amazon VPC Route Tables: "Public A", "Public B"
+    Amazon EC2 Instances in both AZ's
+
+Services in use
+
+    Amazon VPC
+    AWS Network Firewall
+    Amazon EC2
+    AWS Systems Manager
+
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen
+
+
+
+
+
+
+
+
+
+Task 3: Configure Additional Firewall Settings 
+Your Task
+
+Excellent! Now that the AWS Network Firewall is correctly implemented; you are now asked to add "netflix.com" to the list of blocked domains.
+
+As a second requirement, you need to create Alert and Flow logging configurations on the AWS Network Firewall that sends logs to pre-created CloudWatch Log groups so we can monitor and react to blocks by the RuleGroups.
+Getting Started
+
+Check out the online documentation for AWS Network Firewall to get started: https://docs.aws.amazon.com/network-firewall/latest/developerguide/what-is-aws-network-firewall.html
+Inventory
+
+Pre-created inventory that you will interact with in this task:
+
+    CloudWatch LogGroups: "/nfwjam/anfw/alert", "/nfwjam/anfw/flow"
+    AWS Network Firewall RuleGroup: "domain-deny"
+
+Services in use
+
+    AWS Network Firewall
+
+Task Validation
+
+The task will be completed automatically once you implement the changes, and try to access 'netflix.com' from one of the two provided EC2 instances. You can use the command "curl -sSfIm 5 https://www.netflix.com" to validate. Once that call times out, it will take up to (5) five minutes to validate.

@@ -1,0 +1,5 @@
+Insufficient permissions
+The service role or action role doesn’t have the permissions required to access the AWS CodeCommit repository named modelCode-d71fc0acd7f04cfaafbb39199321880c. Update the IAM role permissions, and then try again. Error: User: arn:aws:sts::866493737658:assumed-role/LabStack-prewarm-062dd797-deployModelPipelineRole-139DMQUS8ZZWE/1638716235116 is not authorized to perform: 
+codecommit:UploadArchive on resource: 
+
+arn:aws:codecommit:ap-southeast-2:866493737658:modelCode-d71fc0acd7f04cfaafbb39199321880c because no identity-based policy allows the codecommit:UploadArchive action

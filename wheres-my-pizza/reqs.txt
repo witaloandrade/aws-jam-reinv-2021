@@ -1,0 +1,75 @@
+Overview
+
+Sliceline are a pizza delivery startup which provide their users with an easy way to quickly order pizzas and track their order status.
+
+Their beta was going so well, until they started to get complaints from hungry customers that didn't recieve their pizza!
+
+Sliceline's monolith application couldn't handle the number of orders they were receiving, and the team have decided to modernize to an event driven architecture (to decouple their dependencies, achieve better scalability and cost-efficiency) and desperately need your help! Don't let their customers go hungry!
+
+
+ Task 1: Create SNS Topic 
+
+Background
+
+The platform team have updated and deployed their changes to the Pizza Order Service EC2 instance. These changes publish a message to SNS anytime a pizza order has been recieved (about once every minute). The platform team have not created the SNS topic or any of the other associated resources, instead they created a new Systems Manager (SSM) Parameter which stores the ARN of the SNS Topic that order data should be published to.
+Your Task
+
+For your first task, you have been asked to configure a new SNS topic to recieve the order data, and update the SSM Parameter to use the ARN of your new topic.
+Services you use
+
+    Simple Notification Service
+    Systems Manager Paramater Store
+
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.
+
+
+Task 2: Create DynamoDB Table 
+Background
+
+Great! You've created an SNS topic and updated the Parameter Store so that the application is publishing the messages to your new topic. You've just gone to look for the DynamoDB Table, but can't find anything! You get in touch with someone from the platform team to ask where the table is, but they tell you that their brief was that you were going to create the table. They remind you that its vitally important that the right table structure is used as other services rely on this table to process invoices at the end of each day.
+Your Task
+
+You agree to create the table for the platform team, you will need to create a new DynamoDB Table with an appropriate structure for the below piece of data you're expecting from the SNS topic. The platform team requires that the Partition Key is set to orderId, with pizzaName as the sort key.
+Sample Event Payload
+
+The Pizza Order Service sends a JSON object structured like this, which will be later stored in DynamoDB:
+
+{
+  "orderId": "String",
+  "pizzaName": "String",
+  "size": "String",
+  "base": "String",
+  "crust": "String",
+  "notes": "String"
+}
+
+Services to use
+
+    DynamoDB
+
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.
+
+
+
+ Task 3: Wiring everything up 
+
+
+ 
+Background
+
+Now that you've created the SNS topic and have a DynamoDB table ready to store data, it's time to glue everything together and get the order details saved for the payments team.
+Your Task
+
+Create a Lambda function that is subscribed to your SNS topic which takes the order details from the SNS payload and puts it into DynamoDB. When creating your Lambda Function be sure to use the OrderedPizzaLambdaRole as the function Execution role, otherwise you won't have permissions to interact with DynamoDB.
+Services You Use
+
+    Lambda
+    IAM
+
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.

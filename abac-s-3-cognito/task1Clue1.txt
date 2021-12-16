@@ -1,0 +1,7 @@
+ Clue 1:Getting Started
+
+    Create a new user in the UserPool. Use the Email address to send an invitation.
+    Configure the App Client settings correctly. Make sure implicit flow is enabled.
+    Retrive the tokens. For getting the tokens, if using Hosted UI, register a domain.
+
+As the JAM challenge answer, submit the username and password of the user you have create in the following format: username:password

@@ -1,0 +1,34 @@
+import json
+def handler(event, context):
+  # TODO implement
+  header = event['headers']['x-api-cert-key']
+  if header != "abcd1234":
+    return {
+      'statusCode': 400,
+      'body': 'Bad request. Header value does not match. Please provide a valid header.',
+      'bucketName': event['bucketName'],
+      'headerVal': header
+  }
+  else:
+    value = [
+              {
+                "id": 1,
+                "type": "dog",
+                "price": 249.99
+              },
+              {
+                "id": 2,
+                "type": "cat",
+                "price": 124.99
+              },
+              {
+                "id": 3,
+                "type": "fish",
+                "price": 0.99
+              }
+            ]
+    return {
+        'statusCode': 200,
+        'body': json.dumps(value),
+        'bucketName': event['bucketName']
+    }

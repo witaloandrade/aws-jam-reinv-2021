@@ -1,0 +1,97 @@
+{
+  "Comment": "The state machine connects the services used in this challenge",
+  "StartAt": "API Gateway Request",
+  "States": {
+    "API Gateway Request": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::apigateway:invoke",
+      "Parameters": {
+        "ApiEndpoint": "777av5uuv1.execute-api.us-east-2.amazonaws.com",
+        "Method": "GET",
+        "Path": "LATEST/Gateway",
+        "AuthType": "IAM_ROLE",
+        "Headers": {
+          "x-api-cert-key": [
+            "pqrs1234"
+          ]
+        }
+      },
+      "ResultSelector": {
+        "statusCode.$": "$.StatusCode",
+        "body.$": "$.ResponseBody"
+      },
+      "Next": "Choice"
+    },
+    "Choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.body.statusCode",
+          "NumericEquals": 200,
+          "Next": "Lambda Invoke"
+        },
+        {
+          "Not": {
+            "Variable": "$.body.statusCode",
+            "NumericEquals": 200
+          },
+          "Next": "Fail"
+        }
+      ],
+      "InputPath": "$",
+      "OutputPath": "$",
+      "Default": "Fail"
+    },
+    "Lambda Invoke": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-2:004260893038:function:S3LambdaFunction:$LATEST",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "InputPath": "$.body",
+      "Next": "Choice (1)"
+    },
+    "Choice (1)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$",
+          "BooleanEquals": true,
+          "Next": "Success"
+        },
+        {
+          "Not": {
+            "Variable": "$",
+            "BooleanEquals": true
+          },
+          "Next": "Fail (1)"
+        }
+      ],
+      "InputPath": "$",
+      "OutputPath": "$"
+    },
+    "Fail": {
+      "Type": "Fail"
+    },
+    "Success": {
+      "Type": "Succeed"
+    },
+    "Fail (1)": {
+      "Type": "Fail"
+    }
+  }
+}

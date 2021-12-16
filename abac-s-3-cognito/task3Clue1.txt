@@ -1,0 +1,10 @@
+ Clue 1:Getting Started
+
+    Enable the authentication provider by adding the Congito UserPool Name and client Id.
+    Enable Attributes for access control and add the following custom mapping as follows:
+
+Tag key for principal: rank, Attribute name: custom:rank
+
+Tag key for principal: mission_name, Attribute name: custom:mission_name
+
+Note: Ignore the "There was a problem modifying this identity pool. Please try again." message. Please refresh the page and check if configuration is updated successfully.

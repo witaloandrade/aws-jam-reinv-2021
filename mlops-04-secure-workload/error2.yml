@@ -1,0 +1,3 @@
+ACCESS_DENIED: Service role arn:aws:iam::866493737658:role/LabStack-prewarm-062dd797-d263-48-buildProjectRole-19O7S1YJOPB2U does not allow AWS CodeBuild to create Amazon CloudWatch Logs log streams for build arn:aws:codebuild:ap-southeast-2:866493737658:build/buildImageProject-PR62ST5DzaUj:10e2e411-f69c-4477-b803-2ec13de754c0. Error message: User: arn:aws:sts::866493737658:assumed-role/LabStack-prewarm-062dd797-d263-48-buildProjectRole-19O7S1YJOPB2U/AWSCodeBuild-10e2e411-f69c-4477-b803-2ec13de754c0 is not authorized to perform: logs:CreateLogStream on resource: arn:aws:logs:ap-southeast-2:866493737658:log-group:/aws/codebuild/buildImageProject-PR62ST5DzaUj:log-stream:10e2e411-f69c-4477-b803-2ec13de754c0
+
+

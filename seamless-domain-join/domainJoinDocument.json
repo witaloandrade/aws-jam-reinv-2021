@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "2.2",
+  "description": "Document for seamless domain join",
+  "mainSteps": [
+    {
+      "inputs": {
+        "dnsIpAddresses": [
+          "192.168.1.115",
+          "192.168.2.90"
+        ],
+        "directoryId": "d-996712f0bc",
+        "directoryName": "oncloud.local"
+      },
+      "name": "domainJoin",
+      "action": "aws:domainJoin"
+    }
+  ]
+}

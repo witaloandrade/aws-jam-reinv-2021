@@ -1,0 +1,1 @@
+[ec2-user@ip-10-0-1-232 ~]$ aws codepipeline get-pipeline --name LabStack-prewarm-062dd797-d263-4813-892b-98b6689d3e21-shuRmYQ7j2JK-deployModelPipeline-1BP1607ICQ2J6 --region ap-southeast-2

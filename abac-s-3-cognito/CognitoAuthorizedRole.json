@@ -1,0 +1,33 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "mobileanalytics:PutEvents",
+                "cognito-sync:*",
+                "cognito-identity:*"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:List*"
+            ],
+            "Resource": "arn:aws:s3:::*-${aws:PrincipalTag/mission_name}-*",
+            "Effect": "Allow"
+        },
+        {
+            "Condition": {
+                "StringEquals": {
+                    "s3:ExistingObjectTag/rank": "${aws:PrincipalTag/rank}"
+                }
+            },
+            "Action": [
+                "s3:GetObject*"
+            ],
+            "Resource": "arn:aws:s3:::*-${aws:PrincipalTag/mission_name}-*/*",
+            "Effect": "Allow"
+        }
+    ]
+}

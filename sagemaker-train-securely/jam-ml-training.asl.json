@@ -1,0 +1,106 @@
+{
+  "StartAt": "Copy Resources",
+  "States": {
+    "Copy Resources": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "OutputPath": "$.Payload",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-central-1:474985006916:function:jam-copy-resources:$LATEST"
+      },
+      "Next": "SageMaker Training Step"
+    },
+    "SageMaker Training Step": {
+      "Resource": "arn:aws:states:::sagemaker:createTrainingJob.sync",
+      "Parameters": {
+        "AlgorithmSpecification": {
+          "TrainingImage": "492215442770.dkr.ecr.eu-central-1.amazonaws.com/sagemaker-scikit-learn:0.20.0-cpu-py3",
+          "TrainingInputMode": "File"
+        },
+        "OutputDataConfig": {
+          "S3OutputPath": "s3://sagemaker-resources-eu-central-1-474985006916/"
+        },
+        "StoppingCondition": {
+          "MaxRuntimeInSeconds": 86400
+        },
+        "ResourceConfig": {
+          "InstanceCount": 1,
+          "InstanceType": "ml.m4.xlarge",
+          "VolumeSizeInGB": 30
+        },
+        "RoleArn": "arn:aws:iam::474985006916:role/jam-challenge-sagemaker-execution-role-eu-central-1",
+        "InputDataConfig": [
+          {
+            "DataSource": {
+              "S3DataSource": {
+                "S3DataType": "S3Prefix",
+                "S3Uri": "s3://sagemaker-resources-eu-central-1-474985006916/sagemaker-train-securely/train-data",
+                "S3DataDistributionType": "FullyReplicated"
+              }
+            },
+            "ContentType": "csv",
+            "ChannelName": "train"
+          }
+        ],
+        "HyperParameters": {
+          "sagemaker_submit_directory": "\"s3://sagemaker-resources-eu-central-1-474985006916/sagemaker-train-securely/sourcedir.tar.gz\"",
+          "sagemaker_program": "\"train.py\"",
+          "sagemaker_enable_cloudwatch_metrics": "false",
+          "sagemaker_container_log_level": "20",
+          "sagemaker_region": "\"eu-central-1\""
+        },
+        "TrainingJobName.$": "States.Format('jam-training-{}', $$.Execution.Name)",
+        "DebugHookConfig": {
+          "S3OutputPath": "s3://sagemaker-resources-eu-central-1-474985006916/"
+        }
+      },
+      "Type": "Task",
+      "Next": "SageMaker CreateModel"
+    },
+    "SageMaker CreateModel": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sagemaker:createModel",
+      "Parameters": {
+        "ExecutionRoleArn": "arn:aws:iam::474985006916:role/jam-challenge-sagemaker-execution-role-eu-central-1",
+        "ModelName.$": "States.Format('jam-model-{}', $$.Execution.Name)",
+        "PrimaryContainer": {
+          "Environment": {
+            "SAGEMAKER_CONTAINER_LOB_LEVEL": "20",
+            "SAGEMAKER_ENABLE_CLOUDWATCH_METRICS": "false",
+            "SAGEMAKER_PROGRAM": "train.py",
+            "SAGEAMKER_REGION": "eu-central-1",
+            "SAGEMAKER_SUBMIT_DIRECTORY": "s3://sagemaker-resources-eu-central-1-474985006916/sagemaker-train-securely/sourcedir.tar.gz"
+          },
+          "Image": "492215442770.dkr.ecr.eu-central-1.amazonaws.com/sagemaker-scikit-learn:0.20.0-cpu-py3",
+          "ModelDataUrl.$": "$['ModelArtifacts']['S3ModelArtifacts']"
+        }
+      },
+      "Next": "SageMaker CreateEndpointConfig"
+    },
+    "SageMaker CreateEndpointConfig": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sagemaker:createEndpointConfig",
+      "Parameters": {
+        "EndpointConfigName.$": "States.Format('jam-model-{}', $$.Execution.Name)",
+        "ProductionVariants": [
+          {
+            "InitialInstanceCount": 1,
+            "InstanceType": "ml.m4.xlarge",
+            "ModelName.$": "States.Format('jam-model-{}', $$.Execution.Name)",
+            "VariantName": "AllTraffic"
+          }
+        ]
+      },
+      "Next": "SageMaker CreateEndpoint"
+    },
+    "SageMaker CreateEndpoint": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sagemaker:createEndpoint",
+      "Parameters": {
+        "EndpointConfigName.$": "States.Format('jam-model-{}', $$.Execution.Name)",
+        "EndpointName": "jam-sagemaker-endpoint"
+      },
+      "End": true
+    }
+  }
+}

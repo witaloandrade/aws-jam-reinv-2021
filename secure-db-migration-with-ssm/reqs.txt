@@ -1,0 +1,67 @@
+Overview
+
+ANY LLC has decided to migrate the workloads from on-premises to AWS infrastructure to lower the operational costs and build a highly available architecture. As part of the migration, the database needs to be migrated from DB2 LUW on-premises to Amazon Aurora PostgreSQL. The CTO of the company is concerned at the amount of data that needs to be migrated, securely from on-premises to AWS cloud with minimal downtime on the applications serving the customers.
+Possible Points: 80 Clue Penalty: 0 Points Available: 80
+Background
+
+ANY LLC has decided to migrate the workloads from on-premises to AWS infrastructure to lower the operational costs and build a highly available architecture. As part of the migration, the database needs to be migrated from DB2 LUW on-premises to Amazon Aurora PostgreSQL. The CTO of the company is concerned at the amount of data that needs to be migrated, securely from on-premises to AWS cloud with minimal downtime on the applications serving the customers.
+Your Task
+
+The CTO of the company has tasked you to move the data from DB2 LUW on-premises to Amazon Aurora PostgreSQL quickly. As a database engineer, you have found out that the AWS Database migration services (DMS - https://aws.amazon.com/dms/) is the appropriate tool for this task during which the database will remain fully operational during the migration along with the applications which relies on the database.
+Getting Started
+
+Go to DMS Service console and start setting up the following tasks in the given order to complete the setup and migrate the data.
+
+    Replication Instance
+    Source and Target connection endpoints
+    Database Migration services Task 
+
+
+Inventory
+
+To facilitate this task , the following has been setup in this environment.
+
+    DB2 LUW running on EC2 instance: This will be the source database.
+    RDS Amazon Aurora PostgreSQL: This will be the target database where the data needs to be migrated. 
+
+All the details required for this task like configurations, database server, secret manager infromation to access source and target databases etc. are listed below which can be referred while working on this task.
+
+Replication Instance:
+
+    Instance class: dms.t3.micro
+    VPC: select the one ending DMS-JAM-VPC-2021
+    VPC Security group(s): choose the group name that contains EC2SecurityGroup and RDSSecurityGroup
+
+Source endpoint:
+
+Use Provide access information manually setting for Access to endpoint database while creating the source endpoint and use the following values:
+
+    DB2 Server name/Port: Refer to the Output properties tab of the jam challenge page and get the values from property DB2ServerHost and DB2ServerPort
+    DB2 User Name/Password: select the secret manager named as secretDB2MasterUser and retrieve the username and password
+    Source Database/Schema on DB2 LUW: TESTDB/SAMPLE
+
+Target endpoint:
+
+Use Choose AWS Secrets Manager setting for Access to endpoint database while creating target endpoint and use the following values:
+
+    Secret ID/ IAM role: Refer to the Output properties tab of the jam challenge page and retrieve the value of RDSSecretIdARN and RDSIAMRoleARN 
+
+Note: Target endpoint must be created using AWS Secrets Manager to complete this task.
+
+Database migration tasks:
+
+    Configure using the replication instance, source and target end points created earlier.
+    select Enable validation under Task settings
+
+Under table mappings, choose wizard mode and add the following by selecting Add new selection rule
+
+    select Enter a schema for Schema drop down.
+    enter schema name: SAMPLE
+
+Leave all other values to default.
+
+Task Validation
+
+The task will be automatically completed once you complete the DMS setup and the data is migrated. In addition, to Monitor your Task on the DMS console, click on Table Statistics tab under the newly created Task. You can check individual tables, number of rows inserted and status of the migration.
+
+Note: If the task does not complete after the full load then please review the target endpoint configuration and make sure Choose AWS Secrets Manager option is used for Access to endpoint database and make sure that there is only one target endpoint.

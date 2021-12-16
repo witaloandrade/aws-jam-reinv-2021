@@ -1,0 +1,48 @@
+{
+    "StreamDescription": {
+        "Shards": [
+            {
+                "ShardId": "shardId-000000000000",
+                "HashKeyRange": {
+                    "StartingHashKey": "0",
+                    "EndingHashKey": "113427455640312821154458202477256070484"
+                },
+                "SequenceNumberRange": {
+                    "StartingSequenceNumber": "49624663628676511640390949330640033376178404418692055042"
+                }
+            },
+            {
+                "ShardId": "shardId-000000000001",
+                "HashKeyRange": {
+                    "StartingHashKey": "113427455640312821154458202477256070485",
+                    "EndingHashKey": "226854911280625642308916404954512140969"
+                },
+                "SequenceNumberRange": {
+                    "StartingSequenceNumber": "49624663628698812385589479953781569094451052780198035474"
+                }
+            },
+            {
+                "ShardId": "shardId-000000000002",
+                "HashKeyRange": {
+                    "StartingHashKey": "226854911280625642308916404954512140970",
+                    "EndingHashKey": "340282366920938463463374607431768211455"
+                },
+                "SequenceNumberRange": {
+                    "StartingSequenceNumber": "49624663628721113130788010576923104812723701141704015906"
+                }
+            }
+        ],
+        "StreamARN": "arn:aws:kinesis:us-east-1:348873257299:stream/KinesisStreamForJam",
+        "StreamName": "KinesisStreamForJam",
+        "StreamStatus": "ACTIVE",
+        "RetentionPeriodHours": 24,
+        "EnhancedMonitoring": [
+            {
+                "ShardLevelMetrics": []
+            }
+        ],
+        "EncryptionType": "NONE",
+        "KeyId": null,
+        "StreamCreationTimestamp": "2021-12-08T12:13:22-03:00"
+    }
+}

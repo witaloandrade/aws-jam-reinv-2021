@@ -1,0 +1,20 @@
+ Clue 3:CLI Command Syntax
+
+Run the below CLI command to update the value of custom attributes:
+
+aws cognito-idp admin-update-user-attributes --user-pool-id "<\value>" --username "<\value>" --user-attributes Name="custom:mission_name",Value="neptunespear" Name="custom:rank",Value="colonel" --region "<\region>"
+
+Ensure your CLI environment is correct.
+
+Note: Replace value with actual Cognito configuration.
+
+Find the following values at:
+
+    UserPool Id: Click on the general settings tab and you will find the UserPool Id.
+    User Name: Navigate to the Users tab in the Users and groups tab.
+
+As the JAM challenge answer, submit the username of the user.
+
+
+
+aws cognito-idp admin-update-user-attributes --user-pool-id "<\value>" --username "<\value>" --user-attributes Name="custom:mission_name",Value="neptunespear" Name="custom:rank",Value="colonel" --region "<\region>"

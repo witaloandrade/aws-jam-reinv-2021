@@ -1,0 +1,4 @@
+Output Properties
+IdentityPoolId 	eu-west-2:13931828-5ac9-4dbf-86ea-b10e7c0e364c
+UserPoolClientId 	75jbe6dj5tgth4pssqufcsm2g6
+UserPoolId 	eu-west-2_HWqHHjcOJ 

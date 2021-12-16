@@ -1,0 +1,43 @@
+ Clue 3:Clean-up Invalids - Walk-through to Solution
+
+Step 1: Verify List of Remaining Invalid Objects. We should see as Count 2 (Procedures)
+
+    Verify the List of Invalid Objects remaining in "ORAADMIN" Schema
+
+      select object_name from all_objects where status = 'INVALID' and owner = 'ORAADMIN';
+
+    We Could see two Procedures with Status as "INVALID"
+
+      procedure oraadmin.CUSTOMERACCOUNT_LIBRARY
+      procedure oraadmin.LOGINCUSTOMER_LIBRARY
+
+    View the Procedues to Identify the problem within DB Link and correct it
+
+Step 2: View each Procedure to Observe Reference to DB Link "CONNECT_TO_BRUCE" in it
+
+Step 3: Verify Public DB Link from "DBA_DB_LINKS" with invalid "USING" Clause for TNS Details
+
+select * from DBA_DB_LINKS;
+
+Step 4: From Outputs, Use "BRUCE" user and TNS Details to update Database Link
+
+Step 5: To update TNS Details
+
+First Drop Database Link and Recreate it using Syntax below
+
+drop public database link connect_to_bruce;
+
+create public database link connect_to_bruce
+     connect to bruce identified by cat
+     using 'Endpoint.Address:Endpoint.Port/ORCL';
+
+Step 6: Once DB Link is created. Re-Compile Procedures to make them Valid
+
+alter procedure oraadmin.CUSTOMERACCOUNT_LIBRARY compile;
+alter procedure oraadmin.LOGINCUSTOMER_LIBRARY compile;
+
+Step 7: Please Verify Invalid Object Count is "ZERO"
+
+select count(*) from all_objects where owner = 'ORAADMIN' and status = 'INVALID';
+
+Once Invalid count is "ZERO" Challenge automatically updates as "COMPLETE". Please wait for atleast 3 minutes for status to get updated. User also can click on "Check my progress" button to complete the task and the challenge.

@@ -1,0 +1,109 @@
+ Clue 3:Detailed Steps
+
+First, update the Identity Pool to add the UserPool as the Authentication provider using the below steps:
+
+    Choose Manage Identity Pools from the Amazon Cognito console.
+    Click the name of the identity pool for which you want to enable the external provider. The Dashboard page for your identity pool appears.
+    In the top-right corner of the Dashboard page, click Edit identity pool. The Edit identity pool page appears.
+    Scroll down and click Authentication providers to expand it.
+    Click on Cognito tab.
+    Provide the UserPool name and ClientId of the Cognito UserPool.
+    Click Save Changes at the bottom of the page.
+
+Find the following values at:
+
+    Client Id: You will find the Client Id in App Client section under General settings.
+    UserPool Id: Click on the general settings tab and you will find the UserPool Id.
+
+Next, edit the attributes for access control using the below steps:
+
+    Choose the Edit identity pool.
+    Expand the Authentication providers section.
+    In the Authentication providers section, choose the Cognito provider tab.
+    In Attributes for access control, choose Custom attribute mappings and enter the following two attributes:
+
+Tag key for principal: rank, Attribute name: custom:rank
+
+Tag key for principal: mission_name, Attribute name: custom:mission_name
+
+Note: Ignore the "There was a problem modifying this identity pool. Please try again." message. Please refresh the page and check if configuration is updated successfully.
+
+
+
+
+
+
+ Task 4: GET THE CREDENTIALS AND DOWNLOAD THE FILE
+Possible Points: 50 Clue Penalty: 0 Points Available: 50
+
+Background
+
+The configurations are done. You now need to get the credentials and download the file from S3 having the coordinates of the enemy base.
+
+Your Task
+
+As discussed in the previous task, you can use Amazon Cognito to deliver temporary, limited-privilege credentials to your application, so that your users can access AWS resources.
+
+Also, IAM policies are configured to control access to AWS resources through Amazon Cognito identity pools based on user attributes. The IAM policy attached to the Authenticated role is as follows:
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "mobileanalytics:PutEvents",
+                "cognito-sync:*",
+                "cognito-identity:*"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:List*"
+            ],
+            "Resource": "arn:aws:s3:::*-${aws:PrincipalTag/mission_name}-*",
+            "Effect": "Allow"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject*"
+            ],
+            "Resource": "arn:aws:s3:::*-${aws:PrincipalTag/mission_name}-*/*",
+            "Condition": {
+                "StringEquals": {
+                    "s3:ExistingObjectTag/rank": "${aws:PrincipalTag/rank}"
+                  }
+              },
+        }
+    ]
+}
+
+About the Policy:
+
+    The s3:List* operation is allowed to resources with ARN: arn:aws:s3:::*-${aws:PrincipalTag/mission_name}-*. The ${aws:PrincipalTag/mission_name} will be replaced with the value of custom attribute mission_name present in the ID token. Hence, you get s3:List* permissions on S3 bucket with name xxx-neptunespear-xxx where x can be any random value.
+    The s3:GetObject* operation is allowed to resource where s3:ExistingObjectTag/rank equals ${aws:PrincipalTag/rank}. The ${aws:PrincipalTag/rank} will be replaced with the value of custom attribute rank present in the ID token. Hence, you get s3:GetObject permissions on S3 objects which has tag name as rank and it's value set to colonel.
+
+Your task is to obtain the temporary AWS credentials from the Cognito Identity Pool and then use them to perform GetObject operation on the S3 file containing the coordinates.
+
+Getting Started
+
+    Use the CLI to get the Identity Id using GetId CLI command. You need to use login maps while running this command and pass the Id token which was retrived in Task 1. For eg: --logins cognito-idp."<\region>".amazonaws.com/"<\user-pool-id>"="<\id-token>".
+    Use the CLI to get the temporary AWS Credentials using GetCredentialsForIdentity CLI command. You need to use login maps while running this command and pass the Id token which was retrived in Task 1, same as above.
+    Configure your AWS profile or export the credentials in the command line in order to use these temporary credentials.
+    Make GetObject CLI command to download the file from the S3 bucket containing the coordinates. The bucket name and objects name is as follows:
+
+Bucket Name: xxxxx-neptunespear-xxxxxxxxxx
+
+Key: enemy_base_coordinates.txt
+
+Note: The bucket name can be obtained from the console. It will have neptunespear in its name. Replace xx with the right value.
+
+Task Validation
+
+You will need to submit the content of the S3 file.
+
+Lesson Learned
+
+Upon completion of this task, you will learn how to obtain temporary AWS credentails using Identity Pool and use them to access S3 objects using attribute-based access control.

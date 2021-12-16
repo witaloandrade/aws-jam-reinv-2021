@@ -1,0 +1,56 @@
+{
+    "Statement": [
+        {
+            "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:GenerateDataKey",
+                "kms:ReEncryptTo",
+                "kms:ReEncryptFrom",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:DeleteLogGroup",
+                "logs:DeleteLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "states:UpdateStateMachine",
+                "states:DeleteStateMachine",
+                "states:CreateStateMachine"
+            ],
+            "Resource": "arn:aws:states:ap-southeast-2:866493737658:stateMachine:trainingStateMachine-vaijI1tSLGbo",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:CreateBucket",
+                "s3:GetBucketLocation",
+                "s3:GetBucketACL",
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:GetBucketAcl",
+                "s3:GetBucketLocation"
+            ],
+            "Resource": "arn:aws:s3:::codepipeline-ap-southeast-2-*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "ecr:CompleteLayerUpload",
+                "ecr:InitiateLayerUpload",
+                "ecr:PutImageTagMutability",
+                "ecr:PutImage",
+                "ecr:TagResource",
+                "ecr:UploadLayerPart",
+                "ecr:UntagResource"
+            ],
+            "Resource": "arn:aws:ecr:ap-southeast-2:866493737658:repository/labstack-prewarm-062dd797-d263-4813-892b-98b6689d3e21-shurmyq7j2jkj8w8dysshw-2-ecrmodelrepo-62bm4ysikslp",
+            "Effect": "Allow"
+        }
+    ]
+}

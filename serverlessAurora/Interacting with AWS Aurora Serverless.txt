@@ -1,0 +1,268 @@
+nteracting with AWS Aurora Serverless
+Chris Hare
+
+Chris Hare
+
+Mar 15·9 min read
+
+So you created your first MySQL Aurora Serverless cluster and are ready to use it. You open your terminal client at home and type the command
+
+mysql -u admin cluster-name-east-1.rds.amazonaws.com
+
+and nothing happens. Well, to be more precise, the mysql client times out and exits.
+
+The answer is simple.
+
+Unlike RDS and Aurora Clusters, Aurora Serverless does not have a public endpoint. In fact, according to the documentation, there is no way to choose if the cluster should be public. This means working with the Aurora Serverless cluster can only be accomplished by:
+
+    using a VPN into your VPC;
+    running your application code in a VPC which you have access to;
+    launching an EC2 instance and installing the MySQL client to work with the database; or
+    use the Aurora Web Data API.
+
+The first three options should be fairly well understood, This article is going to present the Web Data API to interface with your Aurora Cluster. Before we dive in, what is Aurora Serverless anyway?
+Aurora Serverless
+
+Aurora Serverless is built upon Amazon Aurora, which is a “built for the cloud” relational database supporting both MySQL and PostgreSQL. These two highly popular open-source databases are used by enterprises around the world. Aurora’s custom design makes it significantly faster than standard MySQL and PostgreSQL databases. Amazon Aurora is a fully managed database, available as part of the Amazon Relational Database Service.
+
+Aurora Serverless builds on these capabilities by providing a “database in the cloud”, where the capabilities of Amazon Aurora are allocated and automatically scaled based upon your application’s demand. There are no “servers” deployed in your infrastructure and no database capacity for you to monitor and manage. This makes Aurora Serverless ideal for many types of applications, especially those with a transient workload.
+The Aurora Web Data API
+
+With an Aurora Serverless cluster, we likely want to take advantage of the service autoscaling, allowing the database to enter a dormant state with no running vCPUs after a pre-determined period. This allows us to pay only for the vCPU and the execution time when we are using it.
+
+    The Web Data API is currently only available for Aurora Serverless v1. It is not yet supported for Aurora Serverless v2.
+
+If our application code is creating a persistent connection to the database, then the Aurora cluster will never scale-out to that dormant state. Consequently, our application code must ensure when a transaction is complete the connection is closed. Closing the database connection at the end of processing is normal behavior for a Lambda function, but not necessarily for other situations.
+
+The Data API helps solve these problems by providing a web services interface for your application, regardless of how it is implemented. The application could be written in Javascript and running in the user’s browser, or as a Python Lambda function, even as an ECS task or EC2 instance. There is no connection to manage. Create the SQL and submit it to the Data API endpoint.
+
+    The Aurora Data API is not available in every region. At the time of publication, the Data API is available in 4 US regions, 4 EU regions, and four API regions. For a complete list of the supported regions, check the documentation.
+
+Data API requests are synchronous with a default time out of 45 seconds, although this behavior is adjustable. Requests are also secure, as the database credentials can only be stored in AWS Secrets Manager and are retrieved when needed. Any other credentials provided for the Data API and Aurora Cluster will be ignored. This also means you do not need to pass credentials for users to access the Data API.
+
+    Using the Data API is more secure for Lambda functions as there is no need to associate the Lambda function with the VPC where the Aurora Serverless cluster is running. It also simplifies the overhead involved in your database operations.
+
+Enabling the Data API
+
+Enabling the Data API is done when the Aurora Serverless cluster is created by selecting the Data API checkbox in the Network & Security section of the selected Aurora Serverless cluster. This can be done when the Aurora Serverless cluster is created, or by modifying the cluster later.
+Allowing Access to the Data API
+
+Instead of granting users access to the database itself either through a login or IAM role, access to the Data API is controlled by granting access to Secrets Manager where the user’s Aurora Serverless credentials are stored and to the Data API itself.
+
+Here is a sample IAM policy granting the minimum permissions for a user to interact with Secrets Manager and the Data API.
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "SecretsManagerDbCredentialsAccess",
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:GetSecretValue"
+            ],
+            "Resource": "arn:aws:secretsmanager:*:*:secret:rds-db-credentials/*"
+        },
+        {
+            "Sid": "RDSDataServiceAccess",
+            "Effect": "Allow",
+            "Action": [
+                "rds-data:BatchExecuteStatement",
+                "rds-data:BeginTransaction",
+                "rds-data:CommitTransaction",
+                "rds-data:ExecuteStatement",
+                "rds-data:RollbackTransaction"
+            ],
+            "Resource": "arn:aws:rds:us-east-2:111122223333:cluster:prod"
+        }
+    ]
+}
+
+This example is from the Aurora Serverless v1 documentation.
+
+    Pay close attention to the policy and ensure the resources are defined as specifically as possible to limit the user’s access rights.
+
+Using the CLI to verify Access
+
+Assuming we have our Aurora Serverless cluster created and the appropriate access granted to our user or profile, we can use the AWS CLI to verify access to the database. Here is an example listing the tables in the named database:
+
+aws rds-data execute-statement  \
+    --resource-arn "arn:aws:rds:us-east-1:ACCOUNT-ID:cluster:CLUSTER-NAME" \
+    --database "DATABASE-NAME" \
+    --secret-arn "arn:aws:secretsmanager:us-east-1:ACCOUNT-ID:secret:SECRET-NAME"  \
+    --sql "show tables;"
+{
+    "numberOfRecordsUpdated": 0,
+    "records": [
+        [
+            {
+                "stringValue": "assessments"
+            }
+        ]
+    ]
+}
+
+In this simple example using the CLI, one table, assessments, was found in the named database on the cluster.
+
+    Even though the CLI identifies database as an optional parameter, it was observed while writing this article that skipping the database name typically resulted in an error. Therefore, it is recommended you include the — database parameter. This also ensures you know what database the action is performed against.
+
+Retrieving data using CuRL and the Data API
+
+Because the Data API has a web endpoint, we are not limited to just using the CLI or the SDK to communicate with our Aurora Serverless cluster. Using the CLI and SDK involves following the API syntax for your specific programming language. When using the Web interface, however, you need to follow the Data API Reference.
+
+    When you use the CLI or an SDK to make requests through this interface, the connection is authenticated using the aws cli configured credentials. Using this approach with CuRL requires more effort because you have to sign the request using SigV4.
+
+Requesting to execute a SQL statement involves connecting to the service endpoint, submitting a POST request with the appropriate body parameters. Let’s list the tables in the database as we did in the previous section using the CLI. It is always preferable to use the HTTPS endpoints, ensuring you are reaching the authentic AWS endpoint and providing a secure transport path.
+
+Let’s put the JSON data for the request into a file:
+
+$ cat sql.json  
+{
+   "database": "DATABASE-NAME",
+   "includeResultMetadata": "true",
+   "resourceArn": "RESOURCE-ARN",
+   "secretArn": "SECRET-MANAGER-ARN",
+   "sql": "show tables;"
+}
+$
+
+This is the same information required in the CLI command we executed previously.
+
+    This article does not cover the complexities of using SigV4. There is an excellent example using Python in the AWS General Reference.
+
+With the ability to execute requests using the web interface, we can make requests to our Aurora Serverless cluster using languages like bash. that being said, I suspect most implementations will use the SDK for your specific language.
+Using the Data API from a Python Function
+
+The example is written in Python, but the same process would apply to other languages.
+
+This example simply queries the Aurora Server cluster to retrieve a list of tables for the named database. The point of the example is to illustrate an important factor when using Aurora Serverless.
+
+    Your application code must be capable of dealing with no response from the cluster if it is paused.
+
+Here is the sample Python function:
+
+import boto3 
+rdsData = boto3.client('rds-data')
+database = "DATABASE"
+cluster_arn = "CLUSTER-ARN"
+secret_arn = "SECRET-ARN"
+
+response1 = rdsData.execute_statement(
+            resourceArn = cluster_arn, 
+            secretArn = secret_arn, 
+            database = database,
+            sql = 'show tables')
+print (response1)
+
+If the cluster is paused, then you will likely get a response like this:
+
+$ python3 example.py
+Traceback (most recent call last):
+  File "example.py", line 14, in <module>
+    sql = 'show tables')
+  File "/usr/local/lib/python3.7/dist-packages/botocore/client.py", line 357, in _api_
+call
+    return self._make_api_call(operation_name, kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/botocore/client.py", line 676, in _make
+_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.errorfactory.BadRequestException: An error occurred (BadRequestException) when calling the ExecuteStatement operation: Communications link failure
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+$
+
+The next execution of the same request results in a response:
+
+$ python3 example.py
+{'ResponseMetadata': {'RequestId': 'ed206a85-2cb1-4a3c-8abd-2096405da1a3', 'HTTPStatus
+Code': 200, 'HTTPHeaders': {'x-amzn-requestid': 'ed206a85-2cb1-4a3c-8abd-2096405da1a3'
+, 'content-type': 'application/json', 'content-length': '72', 'date': 'Sat, 23 Jan 202
+1 17:21:27 GMT'}, 'RetryAttempts': 0}, 'numberOfRecordsUpdated': 0, 'records': [[{'str
+ingValue': 'assessments'}]]}
+$
+
+This is expected behavior if the cluster is paused due to autoscaling.
+
+Let’s tweak the example (not necessarily the best way) to show this in action.
+
+import boto3 
+rdsData = boto3.client('rds-data')
+database = "paei"
+cluster_arn = "arn:aws:rds:us-east-1:ACCOUNT:cluster:paei"
+secret_arn = "arn:aws:secretsmanager:us-east-1:ACCOUNT:secret:rds"
+c = 1
+while True:
+    print(f"request #{c} ", end='' )
+    try:
+        response1 = rdsData.execute_statement(
+                    resourceArn = cluster_arn, 
+                    secretArn = secret_arn, 
+                    database = database,
+                    sql = 'show tables')
+    except  Exception as error:
+        print(f"execution failure: {error}")
+    else:
+        print("execution success")
+        break
+    c += 1
+print (response1)
+
+When we run this we see:
+
+$ python3 example-try.py
+request #1 execution failure: An error occurred (BadRequestException) when calling the ExecuteStatement operation: Communications link failure
+...
+request #9 execution success
+{'ResponseMetadata': {'RequestId': '920c176f-6933-4854-ad98-4fde2c791fef', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': '920c176f-6933-4854-ad98-4fde2c791fef', 'content-type': 'application/json', 'content-length': '72', 'date': 'Sat, 30 Jan 2021 15:15:20 GMT'}, 'RetryAttempts': 0}, 'numberOfRecordsUpdated': 0, 're
+
+There is no pause between requests in this example. Since there were no capacity units associated with the cluster when this was executed, it takes a few seconds for the cluster to respond. Once the cluster is operational, response time is very quick.
+
+Therefore, regardless of what language you are using, your function must be able to handle this type of error until the cluster has been resumed. It may be advisable to use some sort of “exponential backoff” mechanism to give the Aurora cluster time to start.
+Conclusion
+
+Using the Data API to interact with our Aurora Serverless cluster alleviates a lot of the code we would otherwise have to write or import to handle the communication with the database. And since the Data API doesn’t hold the database connection open, we can handle more connections over time.
+
+This article didn’t cover many of the Data API features, including transaction creation, and the ability to execute multiple statements associated with the transaction, making it simpler to roll back those changes if necessary.
+
+The key things to remember when using the Data API are:
+
+    It is not available in all regions. Therefore, if you are deploying an Aurora Serverless cluster and use the Data API, you should verify the availability of the Data API in that region;
+    The Data API can be associated with a VPC endpoint;
+    The authentication credentials are stored in Secrets Manager, simplifying authentication in your code;
+    Improved control by requiring users to have permissions for Secrets Manager and the Data API;
+    If you are going to use the HTTPS endpoint, your requests must include the SigV4 headers;
+    Your code must be capable of handling when the Aurora Serverless cluster is paused (e.g 0 capacity units).
+
+Using Aurora Serverless means you pay only for the time the database is running. For tasks that run sporadically and need a relational structure, Aurora Serverless is a good option over paying for an “always-on” RDS instance.
+
+One final thought: at the beginning of this article, I referred to a MySQL Aurora Serverless cluster, which is what I had initially created for a project I was working on. Aurora Serverless and the Data API support both MySQL and PostgreSQL.
+
+See more articles written by Chris Hare.
+References
+
+Amazon Aurora
+
+Amazon Aurora Serverless
+
+Amazon RDS Data Service API Reference
+
+Aurora Serverless Data API
+
+Authorizing Access to the Data API
+
+AWS Secrets Manager
+
+Calling the Data API
+
+Data API Client (for JavaScript)
+
+How Aurora Serverless v1 Works
+
+New — Data API for Amazon Aurora Serverless
+
+Signing API Requests with SignV4
+
+Using Amazon Aurora Serverless v1
+
+Using the Data API for Aurora Serverless
+About the Author
+
+Chris is a highly-skilled Information Technology, AWS Cloud, Training and Security Professional bringing cloud, security, training, and process engineering leadership to simplify and deliver high-quality products. He is the co-author of seven books and author of more than 70 articles and book chapters in technical, management, and information security publications. His extensive technology, information security, and training experience make him a key resource who can help companies through technical challenges. Chris is a member of the AWS Community Builder Program.

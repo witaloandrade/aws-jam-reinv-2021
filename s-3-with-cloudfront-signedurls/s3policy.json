@@ -1,0 +1,76 @@
+# Source Policy
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::labstack-prewarm-a935206f-a5fb-4539-b-awsomemedia-1eybghmlme6nd"
+        }
+    ]
+}
+
+
+# Policy v1
+{
+    "Version": "2008-10-17",
+    "Id": "Basic S3 Bucket Policy",
+    "Statement": [
+        {
+            "Sid": "1",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::488538603391:root"
+            },
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::labstack-prewarm-a935206f-a5fb-4539-b-awsomemedia-1eybghmlme6nd/*"
+        }
+    ]
+}
+
+# Policy v2
+{
+    "Version": "2012-10-17",
+    "Id": "PolicyForCloudFrontPrivateContent",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E18TQRYZA04DZ1"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::labstack-prewarm-a935206f-a5fb-4539-b-awsomemedia-1eybghmlme6nd/*"
+        }
+    ]
+}
+
+# Policy v3
+
+
+{
+    "Version": "2012-10-17",
+    "Id": "PolicyForCloudFrontPrivateContent",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E18TQRYZA04DZ1"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::labstack-prewarm-a935206f-a5fb-4539-b-awsomemedia-1eybghmlme6nd/*"
+        },
+        {
+            "Sid": "1",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::488538603391:root"
+            },
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::labstack-prewarm-a935206f-a5fb-4539-b-awsomemedia-1eybghmlme6nd/*"
+        }
+    ]
+}
+
+

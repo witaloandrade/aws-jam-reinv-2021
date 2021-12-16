@@ -1,0 +1,17 @@
+ Clue 2:AWS Documentation References
+
+    Create a new user in the UserPool. In order to create the user, refer the documentation: https://docs.aws.amazon.com/cognito/latest/developerguide/how-to-create-user-accounts.html
+
+    Configuring App Client Settings. In order to configure the settings, refer the documentation: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-settings.html
+
+    Use Hosted UI to get the tokens. Please refer the documentation: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-integration.html
+
+For getting the token, you can alternatively use the below AWS CLI commands in the following order:
+
+AdminInitiateAuth: https://docs.aws.amazon.com/cli/latest/reference/cognito-idp/admin-initiate-auth.html
+
+AdminRespondToAuthChallenge: https://docs.aws.amazon.com/cli/latest/reference/cognito-idp/admin-respond-to-auth-challenge.html
+
+As the JAM challenge answer, submit the username and password of the user you have create in the following format: username:password
+
+

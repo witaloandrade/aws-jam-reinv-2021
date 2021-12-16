@@ -1,0 +1,129 @@
+
+Overview
+
+You head the DB Consultant team at Financial Services Corp which offers Core Banking services. You run your application on Oracle. Your database sits on premises and recently the CEO and CFO have made it clear that they want to move into AWS. Schema Migration is complete, however there are INVALID Objects in Schema. Your challenge is to make them VALID by correcting incorrect DB link that is pointing to On-Premises.
+
+
+
+ Task 1: Identify Invalid Objects Count
+Possible Points: 30 Clue Penalty: 0 Points Available: 30
+Background
+
+On Migration of Schema Objects while Homogeneous or Heterogeneous Migration we often find Objects with Status as "INVALID". Your manager asks you to clean-up Invalids by logging to Schema.
+
+Here you connect to EC2 Instance to further access DB Schema using SQL*Plus Client and find Invalid Object Count
+Your Task
+
+Below are the steps to complete as part of the Task
+
+Step 1: Connect to EC2 Instance that comes pre-installed with SQL PLUS to connect to the RDS Oracle DB instance.
+
+You can use this documenation to find your way with in the console: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html
+
+Download the private key pair from the top right corner of the challenge "SSH Key Pair".
+
+Step 2: Use LoginDBUsername,LoginDBPassword and TNS for SCOTT user while making connection
+
+Step 3: Check and List Invalid Objects Count in "ORAADMIN" schema
+
+How many do you see? Let us know in the answer.
+Inventory
+
+    EC2
+    RDS Oracle
+
+Services you should use
+
+    Amazon Elastic Compute Cloud (Amazon EC2)
+    Amazon Relational Database Service (RDS)
+
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.
+
+# How to
+
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ConnectToOracleInstance.html
+
+sqlplus64 scott/tiger@lojv86d8f6qa50.cywk0zuk5wwu.ap-south-1.rds.amazonaws.com:1521/ORCL
+
+
+
+SELECT owner, object_type, object_name FROM all_objects WHERE status = 'INVALID';
+
+SELECT COUNT ( * ) FROM all_objects WHERE status = 'INVALID';
+
+select owner, object_name, object_type, status from dba_objects WHERE status = 'INVALID';
+
+SELECT owner, db_link, username, host FROM dba_db_links;
+
+
+ DROP PUBLIC  DATABASE LINK CONNECT_TO_BRUCE;
+
+
+
+Task 2: Remove Invalid DB Link Reference
+Possible Points: 60 Clue Penalty: 0 Points Available: 60
+Background
+
+On Migration of Schema Objects while Homogeneous or Heterogeneous Migration we often find Objects with Status as "INVALID". There is a trigger that has Invalid reference to a DB Link. Your manager asks you to clean-up Invalids by logging to Schema.
+Your Task
+
+Below are the steps to complete as part of the Task
+
+Step 1 : Validate the available DB Links using Dictionary "DBA_DB_LINKS" and make a note of them
+
+Step 2 : Out of Invalid Objects Identified in Previous Task, Work on Trigger body to remove INVALID reference to an DB link pointing to Incorrect Remote Database.
+Inventory
+
+    EC2
+    RDS Oracle
+
+Services you should use
+
+    Amazon Elastic Compute Cloud (Amazon EC2)
+    Amazon Relational Database Service (RDS)
+
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.
+
+
+
+
+ Task 3: Make INVALID Object Count as "ZERO"
+Possible Points: 60 Clue Penalty: 0 Points Available: 60
+Background
+
+On Migration of Schema Objects while Homogeneous or Heterogeneous Migration we often find Objects with Status as "INVALID". In addition to Triggers that were cleaned-up in Previous task, there are Procedures as well that are Invalid because of Incorrect DB Link Reference to On-Premises Schema.
+
+Your manager asks you to clean-up Invalids by logging to Schema.
+Your Task
+
+Below are the steps to complete as part of the Task
+
+Step 1: Verify List of Remaining Invalid Objects.
+
+Step 2: View each Procedure to Observe Reference to DB Link "CONNECT_TO_BRUCE" in it.
+
+Step 3: Verify Public DB Link from "DBA_DB_LINKS" with invalid "USING" Clause for TNS Details
+
+Step 4: From Outputs, Use "BRUCE" user and TNS Details to update Database Link
+
+Step 5: Once DB Link is Updated/Re-Created. Recompile Invalid Objects to see Invalid Count as "ZERO"
+Inventory
+
+    EC2
+    RDS Oracle
+
+Services you should use
+
+    Amazon Elastic Compute Cloud (Amazon EC2)
+    Amazon Relational Database Service (RDS)
+
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.
+
+
+

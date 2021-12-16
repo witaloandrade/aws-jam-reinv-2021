@@ -1,0 +1,30 @@
+Background
+
+You have recently joined ABC Corp as a Security Engineer. Your CISO has tasked you with tightening up the security of AWS services. As part of this initiative, you are asked to encrypt the environment variables using AWS Key Management Service. This is to be done in order to benefit from a more granular control over the data encryption/decryption process. Are you up for the challenge?
+Possible Points: 80 Clue Penalty: 0 Points Available: 80
+
+
+As an AWS practitioner and on your first day at work, your manager asks you to encrypt environment variables of a lambda function in transit and rest using custom managed KMS key.
+Task
+
+Your task is to encrypt the variables using an existing customer master key.
+Getting Started
+
+Open AWS Console. You can use this documenation to find your way with in the console: https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html.
+Inventory
+
+Work with below Lambda and KMS resources.
+
+    Lambda - myLambdaFunction.
+    KMS - myKeyAlias.
+
+Services you should use
+
+Lambda, KMS.
+Task Validation
+
+The task will be automatically complete once you find the solution, in addition you can always check your progress by press the “Check my progress” Button in the challenge details screen.
+
+
+How to:
+https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption

@@ -1,0 +1,24 @@
+{
+  "errorMessage": "An error occurred (AccessDeniedException) when calling the ExecuteStatement operation: User: arn:aws:sts::992599348149:assumed-role/LabStack-prewarm-89020d6d-LambdaGetSecretsIAMRole-1RFX490717EXQ/calculate-average-rating is not authorized to perform: rds-data:ExecuteStatement on resource: arn:aws:rds:us-east-2:992599348149:cluster:labstack-prewarm-89020d6d-b033-42b0-b15-dbcluster-ykx3umqyfo95 because no identity-based policy allows the rds-data:ExecuteStatement action",
+  "errorType": "ClientError",
+  "stackTrace": [
+    [
+      "/var/task/index.py",
+      17,
+      "lambda_handler",
+      "sql = 'select cast(avg(rating_value) as numeric(3,2)) from rating.customer_rating')"
+    ],
+    [
+      "/var/runtime/botocore/client.py",
+      386,
+      "_api_call",
+      "return self._make_api_call(operation_name, kwargs)"
+    ],
+    [
+      "/var/runtime/botocore/client.py",
+      705,
+      "_make_api_call",
+      "raise error_class(parsed_response, operation_name)"
+    ]
+  ]
+}

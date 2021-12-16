@@ -1,0 +1,7 @@
+ Clue 1:Getting Started
+
+    Execute the GetId CLI command to get the Identity Id.
+    Execute the GetCredentialsForIdentity to get the temporary AWS Credentials. It requires Identity Id which is obtained from GetId call.
+    Export the credentials in the command line.
+    Make GetObject CLI command to download the file from the S3 bucket containing the coordinates.
+

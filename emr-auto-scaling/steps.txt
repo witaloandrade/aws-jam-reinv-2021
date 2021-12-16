@@ -1,0 +1,22 @@
+s-KNT0VXE0SD5W	SparkStep2	Completed 	2021-12-09 14:41 (UTC-3)	1 hour, 22 minutes	
+View logs
+	Debugging not configured
+JAR location : command-runner.jar
+Main class : None
+Arguments : spark-submit --deploy-mode cluster --executor-memory 512M --executor-cores 1 s3://aws-jam-challenge-resources-us-west-2/emr-auto-scaling/transfo2.py s3://labstack-prewarm-825eaaa3-c703-4dc2-9b82-mybucket-1b9oq51khigxw/results2
+Action on failure: Continue
+
+
+
+
+s-57NMXH80AF	SparkStep	Completed 	2021-12-09 14:39 (UTC-3)	1 minute	
+	Debugging not configured
+JAR location : command-runner.jar
+Main class : None
+Arguments : spark-submit --deploy-mode cluster --executor-memory 512M --executor-cores 1 s3://aws-jam-challenge-resources-us-west-2/emr-auto-scaling/scriptwithargs.py s3://aws-jam-challenge-resources-us-west-2/emr-auto-scaling/sample.txt s3://labstack-prewarm-825eaaa3-c703-4dc2-9b82-mybucket-1b9oq51khigxw/results
+Action on failure: Continue
+
+
+
+
+

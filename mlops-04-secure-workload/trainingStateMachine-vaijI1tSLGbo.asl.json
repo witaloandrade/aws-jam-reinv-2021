@@ -1,0 +1,176 @@
+{
+  "StartAt": "Train step",
+  "States": {
+    "Train step": {
+      "ResultPath": "$.train_step_result",
+      "Resource": "arn:aws:states:::sagemaker:createTrainingJob.sync",
+      "Parameters": {
+        "AlgorithmSpecification": {
+          "TrainingImage.$": "$$.Execution.Input['ecrArn']",
+          "TrainingInputMode": "File"
+        },
+        "OutputDataConfig": {
+          "S3OutputPath": "s3://labstack-prewarm-062dd797-d26-modelartifactbucket-17blm74bf8db9/"
+        },
+        "StoppingCondition": {
+          "MaxRuntimeInSeconds": 86400
+        },
+        "ResourceConfig": {
+          "InstanceCount": 1,
+          "InstanceType": "ml.m5.2xlarge",
+          "VolumeSizeInGB": 10
+        },
+        "RoleArn": "arn:aws:iam::866493737658:role/LabStack-prewarm-062dd797-d263-4813-SageMakerRole-JHY69T2ME7EO",
+        "InputDataConfig": [
+          {
+            "DataSource": {
+              "S3DataSource": {
+                "S3DataType": "S3Prefix",
+                "S3Uri.$": "$$.Execution.Input['dataBucketPath']",
+                "S3DataDistributionType": "FullyReplicated"
+              }
+            },
+            "ContentType": "csv",
+            "ChannelName": "training"
+          }
+        ],
+        "TrainingJobName.$": "$$.Execution.Input['Job']"
+      },
+      "Type": "Task",
+      "Next": "Save model",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "ThrottlingException",
+            "SageMaker.AmazonSageMakerException"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 60,
+          "BackoffRate": 1.25
+        }
+      ]
+    },
+    "Save model": {
+      "ResultPath": "$.save_step_result",
+      "Parameters": {
+        "ExecutionRoleArn": "arn:aws:iam::866493737658:role/LabStack-prewarm-062dd797-d263-4813-SageMakerRole-JHY69T2ME7EO",
+        "ModelName.$": "$$.Execution.Input['Model']",
+        "PrimaryContainer": {
+          "Environment": {},
+          "Image.$": "$$.Execution.Input['ecrArn']",
+          "ModelDataUrl.$": "$['train_step_result']['ModelArtifacts']['S3ModelArtifacts']"
+        }
+      },
+      "Resource": "arn:aws:states:::sagemaker:createModel",
+      "Type": "Task",
+      "Next": "Insert artifact into catalog",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "ThrottlingException",
+            "SageMaker.AmazonSageMakerException"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 60,
+          "BackoffRate": 1.25
+        }
+      ]
+    },
+    "Insert artifact into catalog": {
+      "Parameters": {
+        "Item": {
+          "RunId": {
+            "S.$": "$$.Execution.Input['Model']"
+          },
+          "authorDate": {
+            "S.$": "$$.Execution.Input['authorDate']"
+          },
+          "commitId": {
+            "S.$": "$$.Execution.Input['commitId']"
+          },
+          "JobId": {
+            "S.$": "$$.Execution.Input['Job']"
+          },
+          "trainingDataObjectPath": {
+            "S.$": "$$.Execution.Input['dataBucketPath']"
+          },
+          "modelArtifactObjectPath": {
+            "S.$": "States.Format('{}', $.train_step_result.ModelArtifacts.S3ModelArtifacts)"
+          },
+          "ecrImageTag": {
+            "S.$": "$$.Execution.Input['BuildId']"
+          },
+          "trainingStartTime": {
+            "S.$": "States.Format('{}', $.train_step_result.TrainingStartTime)"
+          },
+          "trainingEndTime": {
+            "S.$": "States.Format('{}', $.train_step_result.TrainingEndTime)"
+          },
+          "endpointName": {
+            "S.$": "$$.Execution.Input['Endpoint']"
+          },
+          "triggerSource": {
+            "S.$": "$$.Execution.Input['triggerSource']"
+          },
+          "Accuracy": {
+            "N": "0"
+          }
+        },
+        "TableName": "LabStack-prewarm-062dd797-d263-4813-892b-98b6689d3e21-shuRmYQ7j2JKJ8w8DYSShw-2-DynamoDBTable-1FD06WE3TP3I"
+      },
+      "ResultPath": "$.register_artifact_step_result",
+      "Resource": "arn:aws:states:::dynamodb:putItem",
+      "Type": "Task",
+      "Next": "Create Endpoint configuration"
+    },
+    "Create Endpoint configuration": {
+      "ResultPath": "$.endpoint_config_step_result",
+      "Resource": "arn:aws:states:::sagemaker:createEndpointConfig",
+      "Parameters": {
+        "EndpointConfigName.$": "$$.Execution.Input['Model']",
+        "ProductionVariants": [
+          {
+            "InitialInstanceCount": 1,
+            "InstanceType": "ml.m5.large",
+            "ModelName.$": "$$.Execution.Input['Model']",
+            "VariantName": "AllTraffic"
+          }
+        ]
+      },
+      "Type": "Task",
+      "Next": "Create Endpoint",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "ThrottlingException",
+            "SageMaker.AmazonSageMakerException"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 60,
+          "BackoffRate": 1.25
+        }
+      ]
+    },
+    "Create Endpoint": {
+      "ResultPath": "$.endpoint_step_result",
+      "Resource": "arn:aws:states:::sagemaker:createEndpoint",
+      "Parameters": {
+        "EndpointConfigName.$": "$$.Execution.Input['Model']",
+        "EndpointName.$": "$$.Execution.Input['Endpoint']"
+      },
+      "Type": "Task",
+      "End": true,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "ThrottlingException",
+            "SageMaker.AmazonSageMakerException"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 60,
+          "BackoffRate": 1.25
+        }
+      ]
+    }
+  }
+}

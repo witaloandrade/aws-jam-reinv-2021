@@ -1,0 +1,131 @@
+Overview
+
+If the running costs of Amazon EC2 and Amazon RDS are upsetting you or hurting your budget, or if your monthly expenses are higher than expected, this challenge will motivate you to add innovative cost-saving features.
+
+Even after adopting AWS, most customers are constantly seeking for ways to save money. This challenge will let them stop their instances during non-working hours and resume them during working hours by scheduling them automatically with the least configurations required. They will be given multiple options for choosing which instance to schedule and which instance to start/stop for fixed time (e.g., start at 9 am and stop at 9 pm) or variable time separate for each instance (e.g., instance1 start at 6 am and stop at 4 pm, instance2 start at 11 am and stop at 8 pm), including separate schedules for weekdays and weekends in the launched AWS Region's Timezone. This contains a solution for both Amazon EC2 and Amazon RDS services, which will help you save money.
+
+If this solution intrigues you and you are eager to adopt this cost-cutting feature in your organisation, or your management has asked you to implement cost-savings features, then this challenge is for you.
+
+
+ask 1: Create EventBridge Rule and Stop EC2 instances (AppServer1 and AppServer2)
+Possible Points: 32 Clue Penalty: 0 Points Earned: 32
+Completed!
+Background-
+While working on Amazon EC2 instances, your manager asks you to find ways to save cost. You as Cloud Engineer found out simple way to stop the EC2 instances in evening when the servers are not in use and start them back next working day morning. For few days you did this activity on multiple servers perfectly but later on this was becoming very tedious for you to manage and there was fear that you may forget stopping and starting any particular server any day.
+
+
+Your Task-
+You are tasked to simplify this manual and complex process to stop and start the EC2 servers. You decided to implement an automated process to automatically stop and start EC2 servers using Lambda code triggered via EventBridge Rule and configured time schedule in EC2 Tags.
+
+
+Getting Started-
+This Task needs you to add an EC2 Tag on instance AppServer2 and create an EventBridge Rule to stop EC2 instances AppServer1 and AppServer2 (with Tag Key AutoStop Value true) triggered via Lambda execution.
+
+    Add Tag Key AutoStop with value true/True/TRUE in EC2 instance AppServer2
+    Create Amazon EventBridge Rule name AutoStopEC2 and Event schedule as cron in format <MM> <HH> ? * MON-SUN * having current GMT time + 2 mins and attach it to existing Lambda Function AutoStopEC2Instance
+    This will stop EC2 instances AppServer1 and AppServer2
+    Lambda execution status can also be checked in CloudWatch Log group /aws/lambda/AutoStopEC2Instance
+
+Note: This Rule and cron is 1 time change only for JAM testing and practically user will pre-set this cron to stop instances as per business needs.
+
+
+Inventory-
+
+    Amazon EC2
+    AWS Lambda
+
+
+Services You Should Use-
+
+    Amazon EC2 Tags
+    Amazon EventBridge Rules
+    Amazon CloudWatch Logs
+
+
+Task Validation-
+
+    Once both the EC2 instances (AppServer1 and AppServer2) gets stopped, the Task will automatically get validated and Completed successfully.
+    In addition, you can always check your progress by pressing the “Check my progress” Button in the challenge details screen.
+
+ Task 2: Start EC2 instance (AppServer2)
+Possible Points: 24 Clue Penalty: 0 Points Earned: 24
+Completed!
+Background-
+While working on Amazon EC2 instances, your manager asks you to find ways to save cost. You as Cloud Engineer found out simple way to stop the EC2 instances in evening when the servers are not in use and start them back next working day morning. For few days you did this activity on multiple servers perfectly but later on this was becoming very tedious for you to manage and there was fear that you may forget stopping and starting any particular server any day.
+
+
+Your Task-
+You are tasked to simplify this manual and complex process to stop and start the EC2 servers. You decided to implement an automated process to automatically stop and start EC2 servers using Lambda code triggered via EventBridge Rule and configured time schedule in EC2 Tags.
+
+
+Getting Started-
+This Task needs EC2 instance AppServer2 (with Tags StartWeekDay or StartWeekEnd) to be starting via Lambda execution, scheduled in EventBridge Rules and time as set in EC2 Tags.
+
+    This Task involves testing either on WeekDay (Monday to Friday) or WeekEnd (Saturday to Sunday)
+    Update Tag StartWeekDay if running JAM on Weekday, and Tag StartWeekEnd if on Weekend
+    Set value in HH:MM format, <current-hour>:<current-minute+2> which will run at your current Region's timezone
+    e.g. if you launch JAM in us-east-1 region, by default US/Eastern Timezone will be set in Lambda Environment variable, and then you have to update Tag StartWeekDay or StartWeekEnd with value like 19:10 for 7:10 pm
+    Lambda execution status can also be checked in CloudWatch Log groups /aws/lambda/EC2StartWeekDay or /aws/lambda/EC2StartWeekEnd
+
+Note: This Tag value change is 1 time change only for JAM testing and practically user will set this cron to start instances once as per business needs. This can be set as separate value for each server.
+
+
+Inventory-
+
+    Amazon EC2
+    AWS Lambda
+    Amazon EventBridge Rules
+
+
+Services You Should Use-
+
+    Amazon EC2 Tags
+    Amazon CloudWatch Logs
+
+
+Task Validation-
+
+    Once the EC2 instance AppServer2 gets running, the Task will automatically get validated and Completed successfully
+    In addition, you can always check your progress by pressing the “Check my progress” Button in the challenge details screen.
+
+ Task 3: Stop RDS instance (DBServer1)
+Possible Points: 24 Clue Penalty: 0 Points Earned: 24
+Completed!
+Background-
+While working on Amazon RDS instances, your manager asks you to find ways to save cost. You as Cloud Engineer found out simple way to stop the RDS instances in evening when the servers are not in use and start them back next working day morning. For few days you did this activity on multiple servers perfectly but later on this was becoming very tedious for you to manage and there was fear that you may forget stopping and starting any particular server any day.
+
+
+Your Task-
+You are tasked to simplify this manual and complex process to stop and start the RDS servers. You decided to implement an automated process to automatically stop and start RDS servers using Lambda code triggered via EventBridge Rule and configured time schedule in RDS Tags.
+
+
+Getting Started-
+This Task needs RDS instance DBServer1 (with Tags StopWeekDay or StopWeekEnd) to be stopped via Lambda execution, scheduled in EventBridge Rules and time as set in RDS Tags.
+
+    This Task involves testing either on WeekDay (Monday to Friday) or WeekEnd (Saturday to Sunday)
+    Update Tag StopWeekDay if running JAM on Weekday, and Tag StopWeekEnd if on Weekend
+    Set value in HH:MM format, <current-hour>:<current-minute+2> which will run at your current Region's timezone
+    e.g. if you launch JAM in us-east-1 region, by default US/Eastern Timezone will be set in Lambda Environment variable, and then you have to update Tag StopWeekDay or StopWeekEnd with value like 19:10 for 7:10 pm
+    Lambda execution status can also be checked in CloudWatch Log groups /aws/lambda/RDSStopWeekDay or /aws/lambda/RDSStopWeekEnd
+
+Note: This Tag value change is 1 time change only for JAM testing and practically user will set this cron to stop instances once as per business needs. This can be set as separate value for each server.
+
+
+Inventory-
+
+    Amazon RDS
+    AWS Lambda
+    Amazon EventBridge Rules
+
+
+Services You Should Use-
+
+    Amazon RDS Tags
+    Amazon CloudWatch Logs
+
+
+Task Validation-
+
+    Once the RDS instance DBServer1 gets stopping, the Task will automatically get validated and Completed successfully
+    In addition, you can always check your progress by pressing the “Check my progress” Button in the challenge details screen.
+

@@ -1,0 +1,54 @@
+{
+  "Name": "JAM-4a57-WAFv2Rule",
+  "Priority": 0,
+  "Action": {
+    "Block": {}
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": false,
+    "CloudWatchMetricsEnabled": false,
+    "MetricName": "JAM-4a57-WAFv2RuleMetric"
+  },
+  "Statement": {
+    "AndStatement": {
+      "Statements": [
+        {
+          "ByteMatchStatement": {
+            "FieldToMatch": {
+              "UriPath": {}
+            },
+            "PositionalConstraint": "ENDS_WITH",
+            "SearchString": "secret.html",
+            "TextTransformations": [
+              {
+                "Type": "NONE",
+                "Priority": 0
+              }
+            ]
+          }
+        },
+        {
+          "NotStatement": {
+            "Statement": {
+              "ByteMatchStatement": {
+                "FieldToMatch": {
+                  "SingleQueryArgument": {
+                    "Name": "bzk1hqmvt476tj6qk172zu"
+                  }
+                },
+                "PositionalConstraint": "EXACTLY",
+                "SearchString": "passcode",
+                "TextTransformations": [
+                  {
+                    "Type": "NONE",
+                    "Priority": 0
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

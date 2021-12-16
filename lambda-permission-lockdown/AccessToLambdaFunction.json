@@ -1,0 +1,27 @@
+# In line policy added to arn:aws:iam::522875427258:user/MyLambdaAdministrator
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "lambda:InvokeFunction",
+                "lambda:ListVersionsByFunction",
+                "lambda:GetFunction",
+                "lambda:UpdateFunctionConfiguration",
+                "lambda:InvokeAsync",
+                "lambda:PutFunctionConcurrency",
+                "lambda:UpdateFunctionCode",
+                "lambda:AddPermission",
+                "lambda:PutFunctionEventInvokeConfig",
+                "lambda:PublishVersion",
+                "lambda:RemovePermission",
+                "lambda:GetPolicy"
+            ],
+            "Resource": [
+                "arn:aws:lambda:us-east-1:522875427258:function:SampleFunctionTestPermissions"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}

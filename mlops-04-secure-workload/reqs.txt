@@ -1,0 +1,337 @@
+Overview
+
+Your company hired a new chief information security officer (CISO), and they told the security team that all AWS Identity and Access Management (IAM) roles must follow the principle of least privilege. When the security team rolled out the updates, they removed all the permissions from the roles currently in use, breaking the functionality of your machine learning (ML) pipeline. This issue means that they broke all of your applications and they expect you to search through hundreds of roles that they created for the company to find the roles that you need to use to fix your applications. Nobody on your team is able to work until you resolve this issue, and the CISO expects customers to start reporting errors soon. You must look at the newly created roles, evaluate them to identify which one is appropriate for each service that your applications uses, and update each 
+
+
+ Task 1: Fix the AWS CodePipeline issues
+Possible Points: 53 Clue Penalty: 0 Points Available: 53
+Background
+
+The companies network security team took decisive action and removed all permissions from legacy roles. This left your machine learning (ML) pipeline broken until you update several services with new roles the network security team created for you to use.
+
+Your current architecture uses AWS CodePipeline to automate deployment. The primary pipeline that monitors changes in AWS CodeCommit, builds ECR images using AWS CodeBuild, and then trains your ML model using AWS Step Functions to interact with Amazon SageMaker is not functioning.
+
+AWS Architecture diagram showing the full ML pipeline you manage
+
+The green box around the model training CodePipeline indicates the service that you need to work with. You may use this diagram to help identify the correct IAM role for CodePipeline to use.
+Inventory
+
+The following components have already been created for you:
+
+    AWS CodeCommit repository with model code
+    Amazon ECR repository
+    AWS Step Functions state machine for model training
+    Amazon Simple Storage Service (Amazon S3) buckets
+    Amazon DynamoDB table artifact registry
+    All required IAM roles and policies
+
+An AWS EC2 instance has been created for you to use for this challenge. You may access it by logging into the AWS Console, and then following the CommandHostSessionUrl link on the challenge outputs page. Make sure you run the cd ~ command to get to the home directory before trying to save files.
+
+To connect to the EC2 instance:
+
+    Copy the CommandHostSessionUrl value from the outputs page.
+
+    Open a new browser tab, paste the CommandHostSessionUrl into the address bar, and press ENTER.
+
+The command line for the EC2 instance loads. You have now connected to the instance using AWS Systems Manager session manager. Session Manager is a managed service that provides you with one-click secure access to your instances without the need to open inbound ports and manage bastion hosts. If Session Manger does not work, you can use the IP address in the outputs section to SSH directly into the EC2 instance.
+
+Note you will need to edit files using the Linux command line. There are several cheat sheets on the internet about vim or nano to help you edit and save files.
+Services you should use
+
+You will need to build a solution using the following services:
+
+    AWS CodePipeline
+    AWS CodeBuild
+    AWS Identity and Access Management (IAM)
+    AWS Step Functions
+    Amazon SageMaker
+
+Your task
+
+You need to explore the AWS Management Console to identify services that have nonfunctional roles associated with them. Once you have identified these services, you need to determine what IAM actions each service needs to run properly and then find an IAM role that meets those requirements. Once you have identified the role, you need to update the service to use the IAM role that will allow it to run without errors.
+
+There are four (4) tasks that you need to complete. Each task requires you to update one service.
+Getting started
+
+Coworkers are contacting you for help and reporting that the deployModelPipeline is failing on the source stage. You have to get the pipeline working as quickly as possible.
+
+Log into the AWS Console and examine the deployModelPipeline AWS CodePipeline to determine what access access it needs to run. There have been four (4) roles created that you must evaluate to determine which one will restore functionality. The roles for this task can be filtered on the AWS Identity and Access Management (IAM) roles page by searching for deployModelPipelineAccess
+
+Here are some useful links to doc pages that will help you get started:
+
+    CodePipeline User guide
+    CodePipeline AWS CLI update-pipeline
+    CodePipeline AWS CLI get-pipeline
+
+Task validation
+
+When you have successfully updated the CodePipeline role, this task will autocomplete and the next task will be available. In total you will need to update four (4) different services (one for each task) to complete this challenge.
+ Task 1: Fix the AWS CodePipeline issues
+Possible Points: 53 Clue Penalty: 0 Points Available: 53
+Background
+
+The companies network security team took decisive action and removed all permissions from legacy roles. This left your machine learning (ML) pipeline broken until you update several services with new roles the network security team created for you to use.
+
+Your current architecture uses AWS CodePipeline to automate deployment. The primary pipeline that monitors changes in AWS CodeCommit, builds ECR images using AWS CodeBuild, and then trains your ML model using AWS Step Functions to interact with Amazon SageMaker is not functioning.
+
+AWS Architecture diagram showing the full ML pipeline you manage
+
+The green box around the model training CodePipeline indicates the service that you need to work with. You may use this diagram to help identify the correct IAM role for CodePipeline to use.
+Inventory
+
+The following components have already been created for you:
+
+    AWS CodeCommit repository with model code
+    Amazon ECR repository
+    AWS Step Functions state machine for model training
+    Amazon Simple Storage Service (Amazon S3) buckets
+    Amazon DynamoDB table artifact registry
+    All required IAM roles and policies
+
+An AWS EC2 instance has been created for you to use for this challenge. You may access it by logging into the AWS Console, and then following the CommandHostSessionUrl link on the challenge outputs page. Make sure you run the cd ~ command to get to the home directory before trying to save files.
+
+To connect to the EC2 instance:
+
+    Copy the CommandHostSessionUrl value from the outputs page.
+
+    Open a new browser tab, paste the CommandHostSessionUrl into the address bar, and press ENTER.
+
+The command line for the EC2 instance loads. You have now connected to the instance using AWS Systems Manager session manager. Session Manager is a managed service that provides you with one-click secure access to your instances without the need to open inbound ports and manage bastion hosts. If Session Manger does not work, you can use the IP address in the outputs section to SSH directly into the EC2 instance.
+
+Note you will need to edit files using the Linux command line. There are several cheat sheets on the internet about vim or nano to help you edit and save files.
+Services you should use
+
+You will need to build a solution using the following services:
+
+    AWS CodePipeline
+    AWS CodeBuild
+    AWS Identity and Access Management (IAM)
+    AWS Step Functions
+    Amazon SageMaker
+
+Your task
+
+You need to explore the AWS Management Console to identify services that have nonfunctional roles associated with them. Once you have identified these services, you need to determine what IAM actions each service needs to run properly and then find an IAM role that meets those requirements. Once you have identified the role, you need to update the service to use the IAM role that will allow it to run without errors.
+
+There are four (4) tasks that you need to complete. Each task requires you to update one service.
+Getting started
+
+Coworkers are contacting you for help and reporting that the deployModelPipeline is failing on the source stage. You have to get the pipeline working as quickly as possible.
+
+Log into the AWS Console and examine the deployModelPipeline AWS CodePipeline to determine what access access it needs to run. There have been four (4) roles created that you must evaluate to determine which one will restore functionality. The roles for this task can be filtered on the AWS Identity and Access Management (IAM) roles page by searching for deployModelPipelineAccess
+
+Here are some useful links to doc pages that will help you get started:
+
+    CodePipeline User guide
+    CodePipeline AWS CLI update-pipeline
+    CodePipeline AWS CLI get-pipeline
+
+Task validation
+
+When you have successfully updated the CodePipeline role, this task will autocomplete and the next task will be available. In total you will need to update four (4) different services (one for each task) to complete this challenge.
+
+
+
+## How to 
+Describe the pipeline to json, edit  the role and push back to a aws using cli file update-pipelinev0.1
+
+https://docs.aws.amazon.com/codepipeline/latest/userguide/pipelines-edit.html#pipelines-edit-cli
+
+
+ Task 2: Fix the AWS CodeBuild issue
+Possible Points: 38 Clue Penalty: 0 Points Available: 38
+Background
+
+After updating the CodePipeline to use the correct role and releasing the changes, you find that the pipeline still fails. Looking at the status, you notice that CodeBuild now has a permissions error.
+
+AWS Architecture diagram showing the full ML pipeline you manage
+
+The green box around CodeBuild indicates the service that you need to work with. You may use this diagram to help identify the correct IAM role for CodeBuild to use.
+Inventory
+
+The following components have already been created for you:
+
+    AWS CodeCommit repository with model code
+    Amazon ECR repository
+    AWS Step Functions state machine for model training
+    Amazon Simple Storage Service (Amazon S3) buckets
+    Amazon DynamoDB table artifact registry
+    All required IAM roles and policies
+
+Services you should use
+
+You will need to build a solution using the following services:
+
+    AWS CodePipeline
+    AWS CodeBuild
+    AWS Identity and Access Management (IAM)
+    AWS Step Functions
+    Amazon SageMaker
+
+Your task
+
+Update CodeBuild to use the role that allows the model builds to complete successfully and adheres to the principal of least privileges.
+Getting started
+
+Log into the AWS Console and examine the buildImageProject CodeBuild project to determine what access it needs to work. There have been four (4) roles created that you must evaluate to determine which one will restore functionality. The roles for this task can be filtered on the AWS IAM roles page by searching for buildProjectAccess
+
+The IAM Role that provides you with permissions to update CodeBuild is restricted so that you can not update the service roles associated with the build. When you change the role for the build project, you must un-check the box
+
+Here are some useful links to doc pages that will help you get started:
+
+    CodeBuild Change a build project's settings in AWS CodeBuild
+    CodeBuild Add CodeBuild access permissions to an IAM group or IAM user
+
+Task validation
+
+When you have successfully updated the CodeBuild role, this task will autocomplete and the next task will be available. In total you will need to update four (4) different services (one for each task) to complete this challenge.
+
+
+
+ Task 2: Fix the AWS CodeBuild issue
+Possible Points: 38 Clue Penalty: 0 Points Earned: 38
+Completed!
+Background
+
+After updating the CodePipeline to use the correct role and releasing the changes, you find that the pipeline still fails. Looking at the status, you notice that CodeBuild now has a permissions error.
+
+AWS Architecture diagram showing the full ML pipeline you manage
+
+The green box around CodeBuild indicates the service that you need to work with. You may use this diagram to help identify the correct IAM role for CodeBuild to use.
+Inventory
+
+The following components have already been created for you:
+
+    AWS CodeCommit repository with model code
+    Amazon ECR repository
+    AWS Step Functions state machine for model training
+    Amazon Simple Storage Service (Amazon S3) buckets
+    Amazon DynamoDB table artifact registry
+    All required IAM roles and policies
+
+Services you should use
+
+You will need to build a solution using the following services:
+
+    AWS CodePipeline
+    AWS CodeBuild
+    AWS Identity and Access Management (IAM)
+    AWS Step Functions
+    Amazon SageMaker
+
+Your task
+
+Update CodeBuild to use the role that allows the model builds to complete successfully and adheres to the principal of least privileges.
+Getting started
+
+Log into the AWS Console and examine the buildImageProject CodeBuild project to determine what access it needs to work. There have been four (4) roles created that you must evaluate to determine which one will restore functionality. The roles for this task can be filtered on the AWS IAM roles page by searching for buildProjectAccess
+
+The IAM Role that provides you with permissions to update CodeBuild is restricted so that you can not update the service roles associated with the build. When you change the role for the build project, you must un-check the box
+
+Here are some useful links to doc pages that will help you get started:
+
+    CodeBuild Change a build project's settings in AWS CodeBuild
+    CodeBuild Add CodeBuild access permissions to an IAM group or IAM user
+
+Task validation
+
+When you have successfully updated the CodeBuild role, this task will autocomplete and the next task will be available. In total you will need to update four (4) different services (one for each task) to complete this challenge.
+
+
+
+## How to
+Update code build role to arn:aws:iam::866493737658:role/buildProjectAccess-49599
+
+
+
+
+
+ Task 3: Fix the Step Function issue
+Possible Points: 30 Clue Penalty: 0 Points Available: 30
+Background
+
+After updating the build project to use the correct role and releasing the changes, you notice that the pipeline still fails. Looking at the status, you notice that the AWS Step Function now has a permission error.
+
+AWS Architecture diagram showing the full ML pipeline you manage
+
+The green box around AWS Step Functions indicates the service that you need to work with. You may use this diagram to help identify the correct IAM role for AWS Step Functions to use.
+Inventory
+
+The following components have already been created for you:
+
+    AWS CodeCommit repository with model code
+    Amazon ECR repository
+    AWS Step Functions state machine for model training
+    Amazon Simple Storage Service (Amazon S3) buckets
+    Amazon DynamoDB table artifact registry
+    All required IAM roles and policies
+
+Services you should use
+
+You will need to build a solution using the following services:
+
+    AWS CodePipeline
+    AWS CodeBuild
+    AWS Identity and Access Management (IAM)
+    AWS Step Functions
+    Amazon SageMaker
+
+Your task
+
+Update the AWS Step Functions state machine to use the role that allows the model builds to complete successfully and adheres to the principal of least privileges.
+Getting started
+
+Log into the AWS Console and examine the trainingStateMachine AWS Step Function state machine to determine what access it needs to work. There have been four (4) roles created that you must evaluate to determine which one will restore functionality. The roles for this task can be filtered on the AWS IAM roles page by searching for StepFunctionsAccess
+Task validation
+
+When you have successfully updated the AWS Step Functions role, this task will autocomplete and the next task will be available. In total you will need to update four (4) different services (one for each task) to complete this challenge.
+
+
+# How to 
+Replace Step Function tole to  StepFunctionsAccess-17008 
+
+
+
+ Task 4: Fix the Amazon SageMaker issue
+Possible Points: 29 Clue Penalty: 0 Points Available: 29
+Background
+
+After updating the state machine to use the correct role and releasing the changes, the pipeline still fails. This time however the AWS Step Function fails to complete because Amazon SageMaker does not have appropriate access to complete the model training. You need to update the role that Amazon SageMaker assumes based on what information the Amazon Step Function passes.
+
+AWS Architecture diagram showing the full ML pipeline you manage
+
+The green box around Amazon Sagemaker indicates the service that the role needs to be updated for. You will need to pay attention to where the role is defined and passed to Amazon SageMaker. You may use this diagram to help identify the correct IAM role for Amazon SageMaker to use.
+Inventory
+
+The following components have already been created for you:
+
+    AWS CodeCommit repository with model code
+    Amazon ECR repository
+    AWS Step Functions state machine for model training
+    Amazon Simple Storage Service (Amazon S3) buckets
+    Amazon DynamoDB table artifact registry
+    All required IAM roles and policies
+
+Services you should use
+
+You will need to build a solution using the following services:
+
+    AWS CodePipeline
+    AWS CodeBuild
+    AWS Identity and Access Management (IAM)
+    AWS Step Functions
+    Amazon SageMaker
+
+Your task
+
+Update the AWS Step Functions state machine to pass a role to Amazon SageMaker that allows the model builds to complete successfully and adheres to the principal of least privileges.
+Getting started
+
+Log into the AWS Console and examine the trainingStateMachine state machine to determine what access Amazon SageMaker needs to work properly. There have been four (4) roles created that you must evaluate to determine which one will restore functionality. The roles for this task can be filtered on the AWS IAM roles page by searching for SageMakerAccess
+Task validation
+
+When you have successfully updated the role assumed by Amazon SageMaker, this task will autocomplete and the next task will be available. In total you will need to update four (4) different services (one for each task) to complete this challenge.
+
+
+# How to
+Changge trainingStateMachine-vaijI1tSLGbo.asl.josn to arn:aws:iam::866493737658:role/SageMakerAccess-15081
